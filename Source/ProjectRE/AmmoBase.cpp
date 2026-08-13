@@ -50,8 +50,6 @@ void AAmmoBase::Interactable_Implementation(AActor* InteractingActor)
 	Execute_AddPickableToInventory(InventoryComponent, this);
 	Execute_PickableItemIK(InteractingActor, GetActorLocation());
 	Destroy();
-	
-	//Test Commit Push
 }
 
 void AAmmoBase::GetInventoryDataStruct_Implementation(FInventoryData& InventoryData)
