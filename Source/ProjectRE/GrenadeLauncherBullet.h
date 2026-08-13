@@ -20,10 +20,10 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(VisibleAnywhere)
-	USceneComponent* RootComp;
+	TObjectPtr<USceneComponent> RootComp;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* MeshComp;
+	TObjectPtr<UStaticMeshComponent> MeshComp;
 
 public:	
 	// Called every frame

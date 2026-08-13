@@ -24,7 +24,10 @@ protected:
 	TArray<FHitResult>ExplodeHitResults;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UNiagaraSystem* GLExplosionVfx;
+	TObjectPtr<UNiagaraSystem> GLExplosionVfx;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<USoundBase> ExplodeSound;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float ExplosiveDamage = 100.0f;
@@ -43,13 +46,10 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float ExplosionRadius = 512.0f;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	USoundBase* ExplodeSound;
 
 private:
 	UPROPERTY()
-	AActor* NewGLBullet;
+	TObjectPtr<AActor> NewGLBullet;
 	
 	void ExplosionForce(const FVector& ExplodeLocation) const;
 	void ProjectilePath();

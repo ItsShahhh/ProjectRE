@@ -27,9 +27,9 @@ public:
 	FGameplayTag QuestTag;
 	
 	UPROPERTY(EditAnywhere,Instanced, BlueprintReadOnly)
-	UQuestObjectiveBase* QuestObjectives;
+	TObjectPtr<UQuestObjectiveBase> QuestObjectives;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UQuestData* NextQuest;
+	TObjectPtr<UQuestData> NextQuest;
 	
 };

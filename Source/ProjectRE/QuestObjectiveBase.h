@@ -19,7 +19,7 @@ class PROJECTRE_API UQuestObjectiveBase : public UObject
 	
 public:
 	UPROPERTY()
-	UQuestSubsystem* QuestSubsystem;
+	TObjectPtr<UQuestSubsystem> QuestSubsystem;
 	void SetQuestSubsystem(UQuestSubsystem* QuestSubsystemRef);
 	
 	//PURE VIRTUAL is Used For Class That Created Function It Without Has To Implement It Inside Cpp

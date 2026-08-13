@@ -12,7 +12,7 @@ struct FInventoryData
 	GENERATED_BODY()
 
 UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UItemDataAsset* ItemDataAsset;
+	TObjectPtr<UItemDataAsset> ItemDataAsset;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 ItemQuantity;

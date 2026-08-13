@@ -37,10 +37,10 @@ protected:
 	float VaultDistance = 210.0f;
 	
 	UPROPERTY(EditAnywhere, Category= "Vault")
-	UAnimMontage* MantleAnimation;
+	TObjectPtr<UAnimMontage> MantleAnimation;
 	
 	UPROPERTY(EditAnywhere, Category= "Vault")
-	UAnimMontage* VaultAnimation;
+	TObjectPtr<UAnimMontage> VaultAnimation;
 	
 	// Functions
 	UFUNCTION(BlueprintCallable)
@@ -56,7 +56,7 @@ private:
 	FHitResult HitObstacle;
 	
 	UPROPERTY()
-	ACharacter* CharacterRef;
+	TObjectPtr<ACharacter> CharacterRef;
 
 public:	
 	// Called when the game starts

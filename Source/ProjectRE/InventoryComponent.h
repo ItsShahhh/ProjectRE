@@ -42,7 +42,7 @@ public:
 protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = "Weapon")
-	AWeaponBase* EquippedGun;
+	TObjectPtr<AWeaponBase> EquippedGun;
 	
 	UPROPERTY(VisibleAnywhere,Category = "Inventory")
 	TArray<FInventoryData>InventoryItems;

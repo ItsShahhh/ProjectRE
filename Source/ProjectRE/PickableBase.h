@@ -26,7 +26,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(EditAnywhere, Category = "ItemData")
-	UItemDataAsset* ItemDataAsset;
+	TObjectPtr<UItemDataAsset> ItemDataAsset;
 	
 	UPROPERTY(EditAnywhere, Category = "Struct")
 	FInventoryData ItemStructs;

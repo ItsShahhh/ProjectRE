@@ -23,21 +23,21 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UBoxComponent* EndTightSpaces;
+	TObjectPtr<UBoxComponent> EndTightSpaces;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UCameraComponent> CameraComp;
 
 private:
 	UPROPERTY()
-	ACharacter* CharacterRef;
+	TObjectPtr<ACharacter> CharacterRef;
 	
 	UPROPERTY()
-	UThroughTightSpaces* TightSpacesRef;
+	TObjectPtr<UThroughTightSpaces> TightSpacesRef;
 	
 	UFUNCTION()
 	void ReachEndOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) ;
 
 public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UCameraComponent* CameraComp;
-	
 	virtual void Interactable_Implementation(AActor* InteractingActor) override;
 };

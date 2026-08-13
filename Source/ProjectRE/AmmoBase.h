@@ -22,10 +22,10 @@ public:
 protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	USceneComponent* RootComp;
+	TObjectPtr<USceneComponent> RootComp;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* StaticMesh;
+	TObjectPtr<UStaticMeshComponent> StaticMesh;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EWeaponType AmmoType;

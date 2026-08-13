@@ -35,22 +35,22 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	USceneComponent* SceneComp;
+	TObjectPtr<USceneComponent> SceneComp;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	USceneComponent* MuzzleVfxComp;
+	TObjectPtr<USceneComponent> MuzzleVfxComp;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Weapon")
-	UStaticMeshComponent* StaticMesh;
+	TObjectPtr<UStaticMeshComponent> StaticMesh;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Weapon")
-	USceneComponent* LeftHandSocket;
+	TObjectPtr<USceneComponent> LeftHandSocket;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	USceneComponent* EmptyShellComp;
+	TObjectPtr<USceneComponent> EmptyShellComp;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Weapon")
-	UWidgetComponent* AmmoWidget;
+	TObjectPtr<UWidgetComponent> AmmoWidget;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Weapon")
 	EWeaponType WeaponType;
@@ -86,22 +86,22 @@ protected:
 	TSubclassOf<UCameraShakeBase> CameraShakeRecoil;
 	
 	UPROPERTY(EditAnywhere, Category= "VFX")
-	UNiagaraSystem* MuzzleVFX;
+	TObjectPtr<UNiagaraSystem> MuzzleVFX;
 	
 	UPROPERTY(EditAnywhere, Category= "Bullet Hole")
-	UMaterialInterface* BulletHoleMaterial;
+	TObjectPtr<UMaterialInterface> BulletHoleMaterial;
 	
 	UPROPERTY(EditAnywhere, Category= "Bullet Hole")
 	FVector DecalSize = FVector(10.0f, 10.0f, 10.0f);
 	
 	UPROPERTY(EditAnywhere, Category= "Audio")
-	UAudioComponent* FireAudio;
+	TObjectPtr<UAudioComponent> FireAudio;
 	
 	UPROPERTY(EditAnywhere, Category= "Audio")
-	UAudioComponent* ReloadAudio;
+	TObjectPtr<UAudioComponent> ReloadAudio;
 	
 	UPROPERTY(EditAnywhere, Category= "Audio")
-	UAudioComponent* HolsterAudio;
+	TObjectPtr<UAudioComponent> HolsterAudio;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Damage")
 	int32 WeaponDamage = 10.0f;
@@ -116,13 +116,13 @@ protected:
 	float DistanceRangeDamage = 300.0f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Damage")
-	UNiagaraSystem* BloodSplatterVfx;
+	TObjectPtr<UNiagaraSystem> BloodSplatterVfx;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Animation")
-	UAnimMontage* WeaponReloadAnimation;
+	TObjectPtr<UAnimMontage> WeaponReloadAnimation;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Animation")
-	UAnimMontage* EquipAnimation;
+	TObjectPtr<UAnimMontage> EquipAnimation;
 	
 	UPROPERTY(EditAnywhere, Category= "Animation")
 	FGameplayTag AmmoType;
@@ -144,7 +144,7 @@ protected:
 	bool bIsFullyAim = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Item")
-	UTexture2D* WeaponAmmoIcon;
+	TObjectPtr<UTexture2D> WeaponAmmoIcon;
 	
 	UPROPERTY(EditAnywhere, Category= "Socket")
 	FName WeaponSocketName;
@@ -162,7 +162,7 @@ private:
 	int32 NeededWeaponAmmo;
 	
 	UPROPERTY()
-	ACharacter* CharacterRef;
+	TObjectPtr<ACharacter> CharacterRef;
 	
 	UPROPERTY()
 	bool bCurrentlyReloading = false;

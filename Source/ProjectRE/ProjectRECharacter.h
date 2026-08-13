@@ -51,87 +51,87 @@ class AProjectReCharacter : public ACharacter, public IDiedInterface, public IGe
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* CameraBoom;
+	TObjectPtr<USpringArmComponent> CameraBoom;
 
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FollowCamera;
+	TObjectPtr<UCameraComponent> FollowCamera;
 	
 	// LineTrace Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UInteractableTrace* InteractableTraceComp;
+	TObjectPtr<UInteractableTrace> InteractableTraceComp;
 	
 	// ClimbingLadder Component
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UClimbingLadder* ClimbingLadderComponent;
+	TObjectPtr<UClimbingLadder> ClimbingLadderComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UThroughTightSpaces* TightSpacesComp;
+	TObjectPtr<UThroughTightSpaces> TightSpacesComp;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UInventoryComponent* InventoryComp;
+	TObjectPtr<UInventoryComponent> InventoryComp;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UHealth* HealthComp;
+	TObjectPtr<UHealth> HealthComp;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UVaultObstacle* VaultObstacleComp;
+	TObjectPtr<UVaultObstacle> VaultObstacleComp;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UMotionWarpingComponent* MotionWarpingComp;
+	TObjectPtr<UMotionWarpingComponent> MotionWarpingComp;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UAudioComponent* FootstepAudioComp;
+	TObjectPtr<UAudioComponent> FootstepAudioComp;
 
 protected:
 	/** Jump to Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* JumpAction;
+	TObjectPtr<UInputAction> JumpAction;
 
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* MoveAction;
+	TObjectPtr<UInputAction> MoveAction;
 
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* LookAction;
+	TObjectPtr<UInputAction> LookAction;
 
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* MouseLookAction;
+	TObjectPtr<UInputAction> MouseLookAction;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* InteractingAction;
+	TObjectPtr<UInputAction> InteractingAction;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* Slot1Action;
+	TObjectPtr<UInputAction> Slot1Action;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* Slot2Action;
+	TObjectPtr<UInputAction> Slot2Action;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* Slot3Action;
+	TObjectPtr<UInputAction> Slot3Action;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* Slot4Action;
+	TObjectPtr<UInputAction> Slot4Action;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* AimingAction; 
+	TObjectPtr<UInputAction> AimingAction; 
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* ShootAction;
+	TObjectPtr<UInputAction> ShootAction;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* ReloadAction;
+	TObjectPtr<UInputAction> ReloadAction;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* SprintAction;
+	TObjectPtr<UInputAction> SprintAction;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* InventoryAction;
+	TObjectPtr<UInputAction> InventoryAction;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* VaultObstacleAction;
+	TObjectPtr<UInputAction> VaultObstacleAction;
 	
 	UPROPERTY(EditAnywhere, Category="UI")
 	TSubclassOf<UUserWidget> CrosshairWidgetClass;
@@ -152,22 +152,22 @@ protected:
 	TSubclassOf<UUserWidget> MasterQuestLeaderboardWidgetClass;
 	
 	UPROPERTY(VisibleAnywhere, Category="UI")
-	UMasterUnlockDoor* UnlockedDoorWidget;
+	TObjectPtr<UMasterUnlockDoor> UnlockedDoorWidget;
 	
 	UPROPERTY(VisibleAnywhere, Category="UI")
-	UUserWidget* CrosshairWidget;
+	TObjectPtr<UUserWidget> CrosshairWidget;
 	
 	UPROPERTY(VisibleAnywhere, Category="UI")
-	UUserWidget* HotbarWidget;
+	TObjectPtr<UUserWidget> HotbarWidget;
 	
 	UPROPERTY(VisibleAnywhere, Category="UI")
-	UUserWidget* InventoryWidget;
+	TObjectPtr<UUserWidget> InventoryWidget;
 	
 	UPROPERTY(VisibleAnywhere, Category="UI")
-	UUserWidget* MasterHUD;
+	TObjectPtr<UUserWidget> MasterHUD;
 	
 	UPROPERTY(VisibleAnywhere, Category="UI")
-	UUserWidget* QuestLeaderboard;
+	TObjectPtr<UUserWidget> QuestLeaderboard;
 	
 	UPROPERTY(EditAnywhere, Category="Audio")
 	TMap<TEnumAsByte<EPhysicalSurface>,USoundBase*> FootstepSound;
@@ -177,7 +177,7 @@ protected:
 	
 	//For Player Only
 	UPROPERTY(EditAnywhere, Category= "Health")
-	UAudioComponent* HeartbeatSound;
+	TObjectPtr<UAudioComponent> HeartbeatSound;
 	
 	UPROPERTY(BlueprintReadWrite)
 	FRotator FinalHeadRot;
@@ -186,7 +186,7 @@ protected:
 	ECharacterState CurrentState;
 	
 	UPROPERTY(EditAnywhere, Category= "Animation")
-	UAnimMontage* InteractAnimation;
+	TObjectPtr<UAnimMontage> InteractAnimation;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Animation")
 	FVector IKHandInteractable;
@@ -212,7 +212,7 @@ private:
 	bool bOpenInventory = false;
 	
 	UPROPERTY()
-	APlayerController* PC;
+	TObjectPtr<APlayerController> PC;
 	
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);

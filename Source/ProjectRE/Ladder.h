@@ -19,17 +19,17 @@ public:
 	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UBoxComponent* TopLadderCollision;
+	TObjectPtr<UBoxComponent> TopLadderCollision;
 
 private:
 	UFUNCTION()
 	void ReachTopLadderOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 	UPROPERTY()
-	ACharacter* CharacterRef;
+	TObjectPtr<ACharacter> CharacterRef;
 	
 	UPROPERTY()
-	UClimbingLadder* ClimbingLadderRef;
+	TObjectPtr<UClimbingLadder> ClimbingLadderRef;
 	
 public:
 	virtual void BeginPlay() override;

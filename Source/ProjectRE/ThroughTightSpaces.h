@@ -34,25 +34,19 @@ protected:
 	
 private:
 	UPROPERTY()
-	AActor* TightSpaceActor;
+	TObjectPtr<AActor> TightSpaceActor;
 	
 	UPROPERTY()
-	ACharacter* OwningCharacter;
+	TObjectPtr<ACharacter> OwningCharacter;
 	
 	UPROPERTY()
-	UCharacterMovementComponent* MoveComp;
+	TObjectPtr<UCharacterMovementComponent> MoveComp;
 	
 	UPROPERTY()
-	APlayerController* PlayerController;
+	TObjectPtr<APlayerController> PlayerController;
 	
 	UPROPERTY()
-	AProjectReCharacter* PlayerCharacter;
-	
-	UPROPERTY()
-	USpringArmComponent* CameraComponent;
-	
-	UPROPERTY()
-	ATightSpaces* TightSpacesRef;
+	TObjectPtr<USpringArmComponent> CameraComponent;
 	
 public:
 	UPROPERTY(BlueprintReadOnly)

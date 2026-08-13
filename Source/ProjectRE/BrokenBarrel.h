@@ -20,25 +20,25 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(VisibleAnywhere)
-	USceneComponent* RootComp;
+	TObjectPtr<USceneComponent> RootComp;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* PlankOne;
+	TObjectPtr<UStaticMeshComponent> PlankOne;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* PlankTwo;
+	TObjectPtr<UStaticMeshComponent> PlankTwo;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* PlankThree;
+	TObjectPtr<UStaticMeshComponent> PlankThree;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* PlankFour;
+	TObjectPtr<UStaticMeshComponent> PlankFour;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* PlankFive;
+	TObjectPtr<UStaticMeshComponent> PlankFive;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* PlankSix;
+	TObjectPtr<UStaticMeshComponent> PlankSix;
 
 public:	
 	// Called every frame

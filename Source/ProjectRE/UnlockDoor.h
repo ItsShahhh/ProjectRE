@@ -25,7 +25,7 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(VisibleAnywhere)
-	UCameraComponent* CameraComp;
+	TObjectPtr<UCameraComponent> CameraComp;
 	
 	UPROPERTY(EditAnywhere, Category= "Keys")
 	FGameplayTag CorrectTag;
@@ -34,20 +34,20 @@ protected:
 	FGameplayTag FindUnlockQuestTag;
 	
 	UPROPERTY(EditDefaultsOnly, Category= "Sound")
-	USoundBase* CorrectDoorSound;
+	TObjectPtr<USoundBase> CorrectDoorSound;
 	
 	UPROPERTY(EditDefaultsOnly, Category= "Sound")
-	USoundBase* IncorrectDoorSound;
+	TObjectPtr<USoundBase> IncorrectDoorSound;
 	
 	UPROPERTY(VisibleAnywhere)
 	bool IsAlreadyOpen = false;
 
 private:
 	UPROPERTY()
-	UQuestSubsystem* QuestSubsystem;
+	TObjectPtr<UQuestSubsystem> QuestSubsystem;
 	
 	UPROPERTY()
-	AActor* PlayerRef;
+	TObjectPtr<AActor> PlayerRef;
 	
 public:
 	virtual void Interactable_Implementation(AActor* InteractingActor) override;

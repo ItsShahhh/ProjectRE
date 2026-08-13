@@ -30,26 +30,26 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere)
-	UAudioComponent* FootstepAudioComp;
+	TObjectPtr<UAudioComponent> FootstepAudioComp;
 	
 	UPROPERTY(VisibleAnywhere)
-	UPhysicalAnimationComponent* PhysicalAnimationComp;
+	TObjectPtr<UPhysicalAnimationComponent> PhysicalAnimationComp;
 	
 	UPROPERTY(VisibleAnywhere)
-	UHealth* HealthComp;
+	TObjectPtr<UHealth> HealthComp;
 	
 	// Dissolve Material
 	UPROPERTY(EditDefaultsOnly, Category= "Dissolve")
-	UCurveFloat* DissolveCurve;
+	TObjectPtr<UCurveFloat> DissolveCurve;
 	
 	UPROPERTY(EditDefaultsOnly, Category= "Dissolve")
-	UMaterialInterface* DissolveMaterial;
+	TObjectPtr<UMaterialInterface> DissolveMaterial;
 	
 	UPROPERTY(VisibleAnywhere, Category= "Dissolve")
-	UTimelineComponent* DissolveTimeline;
+	TObjectPtr<UTimelineComponent> DissolveTimeline;
 	
 	UPROPERTY(EditDefaultsOnly, Category= "Limbs")
-	UAnimMontage* NoLimbsAnimation;
+	TObjectPtr<UAnimMontage> NoLimbsAnimation;
 	
 	UPROPERTY(EditDefaultsOnly, Category= "Limbs")
 	TMap<FName, UAnimMontage*> SevereLimbsAnimation;
@@ -71,10 +71,10 @@ protected:
 	float AttackDamage = 20;
 	
 	UPROPERTY(EditDefaultsOnly, Category= "Attack")
-	UAnimMontage* AttackAnimation;
+	TObjectPtr<UAnimMontage> AttackAnimation;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spline")
-	AActor* AssignSpline;
+	TObjectPtr<AActor> AssignSpline;
 	
 	UPROPERTY(EditDefaultsOnly, Category= "Quest")
 	FGameplayTag EliminateQuestTag;
@@ -91,10 +91,10 @@ private:
 	TArray<UMaterialInstanceDynamic*> DynamicDissolveMaterials;
 	
 	UPROPERTY()
-	UQuestSubsystem* QuestSubsystem;
+	TObjectPtr<UQuestSubsystem> QuestSubsystem;
 	
 	UPROPERTY()
-	AAIController* AIComp;
+	TObjectPtr<AAIController> AIComp;
 	
 	FPhysicalAnimationData ResetSettings;
 	FOnAttackFinishedSignature AttackFinishedSignature;

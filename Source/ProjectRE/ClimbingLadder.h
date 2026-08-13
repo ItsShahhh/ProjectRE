@@ -27,10 +27,10 @@ public:
 protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UAnimMontage* ClimbingLadderMontage;
+	TObjectPtr<UAnimMontage> ClimbingLadderMontage;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	USoundBase* ClimbingLadderAudio;
+	TObjectPtr<USoundBase> ClimbingLadderAudio;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool bIsClimbing = false;
@@ -40,13 +40,13 @@ protected:
 	
 private:
 	UPROPERTY()
-	ACharacter* OwningCharacter;
+	TObjectPtr<ACharacter> OwningCharacter;
 	
 	UPROPERTY()
-	UCharacterMovementComponent* MovementComponent;
+	TObjectPtr<UCharacterMovementComponent> MovementComponent;
 	
 	UPROPERTY()
-	AActor* CurrentLadder;
+	TObjectPtr<AActor> CurrentLadder;
 	
 public:
 	// Event Dispatcher

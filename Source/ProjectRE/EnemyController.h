@@ -7,6 +7,8 @@
 #include "Perception/AIPerceptionTypes.h"
 #include "EnemyController.generated.h"
 
+class UAISenseConfig_Hearing;
+class UAISenseConfig_Sight;
 /**
  * 
  */
@@ -23,16 +25,16 @@ protected:
 	virtual void OnPossess(APawn* InPawn) override;
 	
 	UPROPERTY(EditDefaultsOnly)
-	UBehaviorTree* BehaviorComp;
+	TObjectPtr<UBehaviorTree> BehaviorComp;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "AI Perception")
-	UAIPerceptionComponent* AIPerceptionComp;
+	TObjectPtr<UAIPerceptionComponent> AIPerceptionComp;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "AI Perception")
-	class UAISenseConfig_Sight* SightConfig;
+	TObjectPtr<UAISenseConfig_Sight> SightConfig;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "AI Perception")
-	class UAISenseConfig_Hearing* HearingConfig;
+	TObjectPtr<UAISenseConfig_Hearing> HearingConfig;
 	
 	UFUNCTION()
 	void HandleTargetPerception(AActor* TargetActor, FAIStimulus Stimulus);

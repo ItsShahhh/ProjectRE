@@ -24,16 +24,16 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UBoxComponent* BoxCollision;
+	TObjectPtr<UBoxComponent> BoxCollision;
 	
 	UPROPERTY(VisibleAnywhere)
-	USceneComponent* SceneComponent;
+	TObjectPtr<USceneComponent> SceneComponent;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* StaticMesh;
+	TObjectPtr<UStaticMeshComponent> StaticMesh;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UArrowComponent* ArrowComp;
+	TObjectPtr<UArrowComponent> ArrowComp;
 
 public:	
 	// Called every frame

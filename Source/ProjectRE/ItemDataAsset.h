@@ -23,7 +23,7 @@ public:
 	FName ItemName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Data")
-	UTexture2D* ItemIcon;
+	TObjectPtr<UTexture2D> ItemIcon;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Data")
 	int32 ItemQuantity;

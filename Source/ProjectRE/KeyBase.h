@@ -19,10 +19,10 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere)
-	USceneComponent* RootComp;
+	TObjectPtr<USceneComponent> RootComp;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* StaticMesh;
+	TObjectPtr<UStaticMeshComponent> StaticMesh;
 	
 public:
 	virtual void BeginPlay() override;

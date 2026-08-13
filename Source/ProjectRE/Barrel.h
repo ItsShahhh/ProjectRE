@@ -24,10 +24,10 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(VisibleAnywhere)
-	USceneComponent* RootComp;
+	TObjectPtr<USceneComponent> RootComp;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* BarrelMesh;
+	TObjectPtr<UStaticMeshComponent> BarrelMesh;
 	
 	UPROPERTY(EditAnywhere, Category= "Barrel")
 	TMap<int32, TSubclassOf<AAmmoBase>>AmmoSpawnActor;
@@ -43,7 +43,7 @@ protected:
 	
 private:
 	UPROPERTY()
-	AActor* BrokenBarrelSpawn;
+	TObjectPtr<AActor> BrokenBarrelSpawn;
 
 public:	
 	// Called every frame
