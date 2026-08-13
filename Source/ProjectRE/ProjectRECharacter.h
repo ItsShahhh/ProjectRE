@@ -79,6 +79,9 @@ class AProjectReCharacter : public ACharacter, public IDiedInterface, public IGe
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UMotionWarpingComponent* MotionWarpingComp;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
+	UAudioComponent* FootstepAudioComp;
 
 protected:
 	/** Jump to Input Action */
@@ -207,9 +210,6 @@ private:
 	//Variables
 	bool bSprinting = false;
 	bool bOpenInventory = false;
-	
-	EPhysicalSurface SurfaceType;
-	FVector FootstepLocation;
 	
 	UPROPERTY()
 	APlayerController* PC;

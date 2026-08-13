@@ -12,6 +12,8 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "PhysicsEngine/PhysicalAnimationComponent.h"
 #include "DamageableInterface.h"
+#include "GameplayUtils.h"
+#include "Components/AudioComponent.h"
 
 // Sets default values
 AEnemyBase::AEnemyBase()
@@ -24,6 +26,9 @@ AEnemyBase::AEnemyBase()
 	DissolveTimeline = CreateDefaultSubobject<UTimelineComponent>("Dissolve Timeline");
 	
 	PhysicalAnimationComp = CreateDefaultSubobject<UPhysicalAnimationComponent>("PhysicalAnimationComp");
+	
+	FootstepAudioComp = CreateDefaultSubobject<UAudioComponent>("FootstepSoundsComponent");
+	FootstepAudioComp->SetupAttachment(GetMesh());
 }
 
 // Called when the game starts or when spawned
@@ -271,6 +276,41 @@ void AEnemyBase::Died_Implementation()
 	AIComp->UnPossess();
 }
 
+void AEnemyBase::FootstepSound()
+{
+	//Footstep Line Trace Location
+	const FVector EnemyStep = GetActorLocation() + (-GetActorUpVector() * 100);
+	
+	FHitResult HitResult;
+	FCollisionQueryParams QueryParams;
+	QueryParams.bReturnPhysicalMaterial = true;
+	
+	//The Hit Result Could Be Hitting The Actor Itself So It Will Get The Actor Material Instead Of Ground
+	QueryParams.AddIgnoredActor(this);
+	
+	const bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, GetActorLocation(), EnemyStep, ECC_Visibility, QueryParams);
+	
+	if (bHit)
+	{
+		//Check Physical Material Surface Type (Can Be Change Inside Physics Material Setting)
+		const EPhysicalSurface GroundMaterial = HitResult.PhysMaterial->SurfaceType;
+		if (!GroundMaterial) return;
+		
+		// Check If The TMap Contains The Type Surface That We Give
+		if (!FootstepSoundsType.Contains(GroundMaterial))
+		{
+			UGameplayUtils::PrintDebug(2.0f, FColor::Red, TEXT("Doesn't Contain This Type Of Sound Or Material Inside TMap"), this);
+			return;
+		}
+		// Set The SoundBaseOnSurface Based On The TMap Using Surface Type
+		USoundBase* SoundBaseOnSurface = FootstepSoundsType[GroundMaterial];
+		
+		if (!IsValid(FootstepAudioComp)) return;
+		FootstepAudioComp->SetSound(SoundBaseOnSurface);
+		FootstepAudioComp->Play();
+	}
+}
+
 FGenericTeamId AEnemyBase::GetGenericTeamId() const
 {
 	return FGenericTeamId(1);
@@ -280,5 +320,3 @@ FOnAttackFinishedSignature* AEnemyBase::GetAttackFinishedDelegate()
 {
 	return &AttackFinishedSignature;
 }
-
-

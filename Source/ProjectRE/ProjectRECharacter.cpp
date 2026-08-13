@@ -83,6 +83,10 @@ AProjectReCharacter::AProjectReCharacter()
 	//Heartbeat Audio Component
 	HeartbeatSound = CreateDefaultSubobject<UAudioComponent>("Heartbeat Audio Component");
 	
+	//Footstep Audio Component
+	FootstepAudioComp = CreateDefaultSubobject<UAudioComponent>("Footstep Audio Component");
+	FootstepAudioComp->SetupAttachment(GetMesh());
+	
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -534,36 +538,38 @@ void AProjectReCharacter::Landed(const FHitResult& Hit)
 
 void AProjectReCharacter::PlayFootstepSound()
 {
-	const FVector StartLocation = GetActorLocation();
-	const FVector GetActorDownVector = -GetActorUpVector();
-	const FVector EndLocation = StartLocation + (GetActorDownVector * 100);
+	const FVector PlayerStep = GetActorLocation() + (-GetActorUpVector() * 100);
 	
 	FHitResult HitResult;
 	FCollisionQueryParams QueryParams;
 	QueryParams.bReturnPhysicalMaterial = true;
+	
+	//The Hit Result Could Be Hitting The Actor Itself So It Will Get The Actor Material Instead Of Ground
+	QueryParams.AddIgnoredActor(this);
 
-	const bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, QueryParams);
-	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 1, 0 , 1);
+	const bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, GetActorLocation(), PlayerStep, ECC_Visibility, QueryParams);
 	
 	// Checking If the Line Trace Hit Anything Based On The Query and Checking If The Hit Result PhysMaterial Is Valid
-	if (bHit && HitResult.PhysMaterial.IsValid())
+	if (bHit)
 	{
-		// Save All the Reference Into This Variables
-		SurfaceType = HitResult.PhysMaterial->SurfaceType;
-		FootstepLocation = HitResult.ImpactPoint;
+		//Check Physical Material Surface Type (Can Be Change Inside Physics Material Setting)
+		const EPhysicalSurface SurfaceType = HitResult.PhysMaterial->SurfaceType;
+		if (!SurfaceType) return;
+		
+		// Check If The TMap Contains The Type Surface That We Give
+		if (!FootstepSound.Contains(SurfaceType))
+		{
+			UGameplayUtils::PrintDebug(2.0f, FColor::Red, TEXT("Doesn't Contain This Type Of Sound Or Material Inside TMap"), this);
+			return;
+		}
+		// Set The SoundBaseOnSurface Based On The TMap Using Surface Type
+		USoundBase* SoundBaseOnSurface = FootstepSound[SurfaceType];
+	
+		// Play The Sound On Impact Point Of The Line Trace
+		if (!IsValid(FootstepAudioComp)) return;
+		FootstepAudioComp->SetSound(SoundBaseOnSurface);
+		FootstepAudioComp->Play();
 	}
-	
-	// Check If The Footstep Sound TMap Is Empty
-	if (FootstepSound.IsEmpty()) return;
-	
-	// Check If The TMap Contains The Type Surface That We Give
-	if (!FootstepSound.Contains(SurfaceType)) return;
-	
-	// Setting The SoundBaseOnSurface Based On The TMap Using Surface Type
-	USoundBase* SoundBaseOnSurface = FootstepSound[SurfaceType];
-	
-	// Play The Sound On Impact Point Of The Line Trace
-	UGameplayStatics::SpawnSoundAtLocation(this, SoundBaseOnSurface, FootstepLocation);
 }
 #pragma endregion 
 

@@ -30,6 +30,9 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere)
+	UAudioComponent* FootstepAudioComp;
+	
+	UPROPERTY(VisibleAnywhere)
 	UPhysicalAnimationComponent* PhysicalAnimationComp;
 	
 	UPROPERTY(VisibleAnywhere)
@@ -76,6 +79,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category= "Quest")
 	FGameplayTag EliminateQuestTag;
 	
+	UPROPERTY(EditDefaultsOnly, Category= "Footstep")
+	TMap<TEnumAsByte<EPhysicalSurface>, USoundBase*> FootstepSoundsType;
+	
+	UFUNCTION(BlueprintCallable, Category= "Footstep")
+	void FootstepSound();
+
 private:
 	//Variables
 	UPROPERTY()
