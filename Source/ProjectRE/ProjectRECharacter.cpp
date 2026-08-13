@@ -427,7 +427,12 @@ void AProjectReCharacter::StartAiming()
 	CameraManager->ViewPitchMax =  WeaponRef->GetMaxAimingClamp();
 	GetCharacterMovement()->MaxWalkSpeed =  WeaponRef->GetAimingWalkSpeed();
 	CurrentState = ECharacterState::ECS_Aiming;
-	SetActorRotation(GetControlRotation());
+	
+	//When Aiming Weapon, Player Only Rotate Yaw Axis
+	const FRotator YawRotation = GetActorRotation();
+	const FRotator FinalYawRotation = FRotator(0, YawRotation.Yaw, 0);
+	SetActorRotation(FinalYawRotation);
+	
 	bUseControllerRotationYaw = true;
 	GetCharacterMovement()->bOrientRotationToMovement = false;
 }
@@ -635,8 +640,10 @@ void AProjectReCharacter::MantleAnimation(const FVector& MantleLocation, UAnimMo
 {
 	GetMotionWarpingComponent()->AddOrUpdateWarpTargetFromLocation(FName("Mantle"), MantleLocation);
 	PlayAnimMontage(MantleAnimation);
+	
 	// Set The Player Movement To Flying So the Player Doesn't Get Pull Down By The Gravity (If I Don't Do This The Player Stuck At One Place)
 	GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	
 	// Set The Player Capsule To Ignore WorldStatic So The Player Can Mantle Or Vault Without Getting Stuck On The Static Object
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Ignore);
 }

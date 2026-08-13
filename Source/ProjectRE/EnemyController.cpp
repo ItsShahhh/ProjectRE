@@ -76,7 +76,7 @@ void AEnemyController::HandleTargetPerception(AActor* TargetActor, FAIStimulus S
 		else
 		{
 			GetBlackboardComponent()->SetValueAsBool(FName("isAlert"), false);
-			// Clear Player Target Value To Make Sure Enemy Doesn't Chase Player Anymore (ActLike Enemy Doesn't See Player Anymore)
+			// Clear Player Target Value To Make Sure Enemy Doesn't Chase Player Anymore (Act Like Enemy Doesn't See Player Anymore)
 			GetBlackboardComponent()->ClearValue(FName("PlayerTarget"));
 		}
 	}

@@ -129,15 +129,15 @@ protected:
 	
 	// Aiming Weapon
 	UPROPERTY(VisibleAnywhere, Category= "Aiming")
-	float MinAimingClamp = -25.0f;
+	float MinAimingClamp = -45.0f;
 	
-	UPROPERTY(VisibleAnywhere, Category= "Aiming")
-	float MaxAimingClamp = 25.0f;
+	UPROPERTY(EditAnywhere, Category= "Aiming")
+	float MaxAimingClamp = 45.0f;
 	
-	UPROPERTY(VisibleAnywhere, Category= "Aiming")
+	UPROPERTY(EditAnywhere, Category= "Aiming")
 	float AimingSpeed = 20.0f;
 	
-	UPROPERTY(VisibleAnywhere, Category= "Aiming")
+	UPROPERTY(EditAnywhere, Category= "Aiming")
 	float AimingWalkSpeed = 200.0f;
 	
 	UPROPERTY(BlueprintReadWrite)

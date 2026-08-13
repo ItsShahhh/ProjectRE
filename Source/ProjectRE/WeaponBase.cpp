@@ -15,6 +15,7 @@
 #include "Components/AudioComponent.h"
 #include "GameFramework/Character.h"
 #include "Components/WidgetComponent.h"
+#include "Perception/AISense_Hearing.h"
 
 // Sets default values
 AWeaponBase::AWeaponBase()
@@ -136,6 +137,9 @@ bool AWeaponBase::FireWeapon(const FVector& CameraLocation, const FVector& Camer
 		// Play Weapon Shot Sound
 		FireAudio->Play();
 	}
+	
+	//When Shoot It Will Make a Noise That Alert Enemy
+	UAISense_Hearing::ReportNoiseEvent(GetWorld(), GetActorLocation(), 1.0f, CharacterRef, 0.0f);
 	
 	// Change Dismember Boolean From True To False So Can Still Dismember Other Arm
 	bDismembered = false;
