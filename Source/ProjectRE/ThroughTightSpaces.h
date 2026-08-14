@@ -48,6 +48,11 @@ private:
 	UPROPERTY()
 	TObjectPtr<USpringArmComponent> CameraComponent;
 	
+	UPROPERTY()
+	TObjectPtr<UArrowComponent> ArrowComponentRef;
+	
+	FRotator OriginalRotation;
+
 public:
 	UPROPERTY(BlueprintReadOnly)
 	FOnTightSpaces StartTightSpacesDispatcher;

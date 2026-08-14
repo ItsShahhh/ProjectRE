@@ -2,6 +2,8 @@
 
 
 #include "ThroughTightSpaces.h"
+
+#include "GameplayUtils.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/ArrowComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -37,52 +39,65 @@ void UThroughTightSpaces::TickComponent(const float DeltaTime, const ELevelTick 
 
 void UThroughTightSpaces::BeginEnvironmentInteraction_Implementation(AActor* CurrentTightSpace, UArrowComponent* ArrowComp)
 {
-	bTroughTightSpaces = true;
-	TightSpaceActor = CurrentTightSpace;
+	if (!OwningCharacter) return;
+	if (!MoveComp) return;
+	if (!CurrentTightSpace) return;
+	if (!ArrowComp) return;
 	
-	if (OwningCharacter)
+	if (!bTroughTightSpaces)
 	{
-		const FVector StartTightSpacesLocation = ArrowComp->GetComponentLocation();
-		const FRotator StartTightSpacesRotation = ArrowComp->GetComponentRotation();
-		OwningCharacter->SetActorLocation(StartTightSpacesLocation);
-		OwningCharacter->SetActorRotation(StartTightSpacesRotation);
-		OwningCharacter->GetMesh()->SetWorldRotation(FRotator(0, -90, 0));
-		OwningCharacter->GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
+		bTroughTightSpaces = true;
+		TightSpaceActor = CurrentTightSpace;
+		ArrowComponentRef = ArrowComp;
 		
-		if (MoveComp)
-		{
-			MoveComp->bOrientRotationToMovement = false;	
-			MoveComp->SetMovementMode(MOVE_Flying);
-			MoveComp->StopMovementImmediately();
-		}
+		const FVector StartTightSpacesLocation = ArrowComponentRef->GetComponentLocation();
+		OwningCharacter->SetActorLocation(StartTightSpacesLocation);
+		
+		const FRotator StartTightSpacesRotation = ArrowComponentRef->GetComponentRotation();
+		OwningCharacter->SetActorRotation(StartTightSpacesRotation);
+		
+		const FRotator PlayerRotation = ArrowComponentRef->GetForwardVector().Rotation();
+		const FRotator PLayerYawRotation = FRotator(0, -PlayerRotation.Yaw, 0);
+		OwningCharacter->GetMesh()->SetWorldRotation(PLayerYawRotation);
+		
+		OwningCharacter->GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
+	
+		MoveComp->bOrientRotationToMovement = false;	
+		MoveComp->SetMovementMode(MOVE_Flying);
+		MoveComp->StopMovementImmediately();
+	
 		StartTightSpacesDispatcher.Broadcast();
+	
+		//Update Through Tight Spaces Variables For Player Animation
+		OnUpdateTightSpaceForAnimation.Broadcast(bTroughTightSpaces);
 	}
-	//Update Through Tight Spaces Variables For Player Animation
-	OnUpdateTightSpaceForAnimation.Broadcast(bTroughTightSpaces);
 }
 
 void UThroughTightSpaces:: EndEnvironmentInteraction_Implementation()
 {
+	if (!OwningCharacter) return;
+	if (!MoveComp) return;
+	
 	if (bTroughTightSpaces)
 	{
 		bTroughTightSpaces = false;
 		
-		if (OwningCharacter)
-		{
-			OwningCharacter->GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
-			OwningCharacter->GetMesh()->SetWorldRotation(FRotator(0, 180, 0));
+		OwningCharacter->GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block);
+			
+		UGameplayUtils::PrintDebug(1.0f, FColor::Green, TEXT("Called"), this);
+		const FRotator PlayerRotation = OwningCharacter->GetMesh()->GetRightVector().Rotation();
+		const FRotator PLayerYawRotation = FRotator(0, -PlayerRotation.Yaw, 0);
+		OwningCharacter->GetMesh()->SetWorldRotation(PLayerYawRotation);
 		
-			if (MoveComp)
-			{
-				MoveComp->bOrientRotationToMovement = true;
-				MoveComp->SetMovementMode(MOVE_Walking);
-				MoveComp->StopMovementImmediately();
-			}
-			StopTightSpacesDispatcher.Broadcast();
-		}
+		MoveComp->bOrientRotationToMovement = true;
+		MoveComp->SetMovementMode(MOVE_Walking);
+		MoveComp->StopMovementImmediately();
+		
+		StopTightSpacesDispatcher.Broadcast();
+		
+		//Update Through Tight Spaces Variables For Player Animation
+		OnUpdateTightSpaceForAnimation.Broadcast(bTroughTightSpaces);
 	}
-	//Update Through Tight Spaces Variables For Player Animation
-	OnUpdateTightSpaceForAnimation.Broadcast(bTroughTightSpaces);
 }
 
 void UThroughTightSpaces::TightSpacesMovement(const float Forward) const

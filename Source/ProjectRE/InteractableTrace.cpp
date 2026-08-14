@@ -33,7 +33,14 @@ void UInteractableTrace::TraceTimerScanner(const FVector& StartTraceLocation, co
 {
 	const FVector EndCameraLocation = StartTraceLocation + (ForwardTraceLocation * LineTraceRange);
 	
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartTraceLocation, EndCameraLocation, ECC_Visibility))
+	FCollisionQueryParams TraceParams;
+	TraceParams.AddIgnoredActor(GetOwner());
+	
+	//Only Detect Trace Based On Object Type (Which Now Is WorldStatic)
+	FCollisionObjectQueryParams ObjectParams;
+	ObjectParams.AddObjectTypesToQuery(ECC_WorldStatic); 
+	
+	if (GetWorld()->LineTraceSingleByObjectType(HitResult, StartTraceLocation, EndCameraLocation,  ObjectParams, TraceParams))
 	{
 		if (AActor* HitActor = HitResult.GetActor())
 		{

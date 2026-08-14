@@ -39,7 +39,7 @@ void ATightSpaces::Interactable_Implementation(AActor* /*InteractingActor*/)
 	
 	if (!TightSpacesRef->GetIsThroughTightSpaces())
 	{
-		IInteractableInterface::Execute_BeginEnvironmentInteraction(TightSpacesRef, this, ArrowComp);
+		Execute_BeginEnvironmentInteraction(TightSpacesRef, this, ArrowComp);
 	}
 	else
 	{
