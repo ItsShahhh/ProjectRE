@@ -197,6 +197,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Animation")
 	bool ControlRig = true;
 	
+	UPROPERTY(EditAnywhere, Category= "Recoil")
+	float RecoilSpeed = 15.0f;
+	
 	UPROPERTY(BlueprintAssignable)
 	FOnUpdateInteractableForAnimation OnUpdateInteractableForAnimation;
 	
@@ -210,6 +213,11 @@ private:
 	//Variables
 	bool bSprinting = false;
 	bool bOpenInventory = false;
+	
+	float WeaponRecoilTarget;
+	float CurrentWeaponRecoil;
+	
+	FTimerHandle CameraRecoilTimerHandle;
 	
 	UPROPERTY()
 	TObjectPtr<APlayerController> PC;
@@ -342,6 +350,9 @@ public:
 	//Unlock Door
 	UFUNCTION()
 	virtual void DoorUnlockMode_Implementation(AActor* DoorActor) override;
+	
+	//Weapon Recoil
+	virtual void CameraWeaponRecoil_Implementation(float CurrentRecoilWeapon) override;
 	
 	/** Initialize input action bindings */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

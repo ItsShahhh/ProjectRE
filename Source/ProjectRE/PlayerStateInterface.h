@@ -31,4 +31,7 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent)
 	void CorrectDoorKey(FGameplayTag CorrectDoorTag);
+	
+	UFUNCTION(BlueprintNativeEvent)
+	void CameraWeaponRecoil(float CurrentRecoilWeapon);
 };

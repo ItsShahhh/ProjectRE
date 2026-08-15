@@ -132,6 +132,9 @@ bool AWeaponBase::FireWeapon(const FVector& CameraLocation, const FVector& Camer
 	//Spawn Empty Shell Out Of Gun
 	SpawnEmptyShells();
 	
+	//Camera Recoil
+	WeaponRecoil();
+	
 	if (FireAudio)
 	{
 		// Play Weapon Shot Sound
@@ -146,6 +149,12 @@ bool AWeaponBase::FireWeapon(const FVector& CameraLocation, const FVector& Camer
 	 
 	// Return True When Weapon Fired
 	return true;
+}
+
+void AWeaponBase::WeaponRecoil()
+{
+	if (!CharacterRef->Implements<UPlayerStateInterface>()) return;
+	IPlayerStateInterface::Execute_CameraWeaponRecoil(CharacterRef, WeaponRecoilForce);
 }
 
 void AWeaponBase::BulletHit(FHitResult& HitResult, const FVector& ShootingStartLocation) const

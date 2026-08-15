@@ -235,10 +235,25 @@ void AProjectReCharacter::Tick(const float DeltaSeconds)
 	}
 
 	const FRotator TargetRot = FRotator(YawRotClamp, PitchRotClamp, 0.0f);
-
 	constexpr float InterpSpeed = 15.0f; 
 
 	FinalHeadRot = FMath::RInterpTo(FinalHeadRot, TargetRot, DeltaSeconds, InterpSpeed);
+	
+	//Set The Current Weapon Recoil to Last Weapon Recoil To Use It Later
+	//Reminder Need To Save Last Weapon Recoil Early on So It Doesn't Get Overwrite
+	const float LastWeaponRecoil = CurrentWeaponRecoil;
+	                                                       
+	//Reminder Interp Calculation (Current Weapon Recoil + (Weapon Recoil Target - Current Weapon Recoil) x Delta Seconds x Recoil Speed)
+	//Need To Subtract These (Weapon Recoil Target - Current Weapon Recoil) First
+	//Then Saved The Value To Current Weapon Recoil (Before The =) and Use It To Calculated Final Weapon Recoil
+	CurrentWeaponRecoil = FMath::FInterpTo(CurrentWeaponRecoil, WeaponRecoilTarget, DeltaSeconds, RecoilSpeed);
+	
+	//We Subtract Current Weapon Recoil With Last Weapon Recoil To Get The Value For Add Controller Pitch Input
+	//We Need This Because Add Controller Pitch Input Is Stackable and When Subtract Current Weapon Recoil and Last Weapon Recoil 
+	//We Get The Real Value To Hit The Weapon Recoil Target
+	const float FinalWeaponRecoil = CurrentWeaponRecoil - LastWeaponRecoil;
+	
+	AddControllerPitchInput(-FinalWeaponRecoil);
 }
 
 #pragma region Player Input
@@ -471,6 +486,25 @@ void AProjectReCharacter::ShootWeapon()
 	{
 		WeaponCameraShake();
 	}
+}
+
+void AProjectReCharacter::CameraWeaponRecoil_Implementation(const float CurrentRecoilWeapon)
+{
+	//Added Current Recoil Weapon To Weapon Recoil Target
+	//Reminder Adding Doesn't Overwrite The Original Value 
+	//Because We Still Get The Weapon Recoil Target Before It Get Added By Current Recoil Weapon (10, 20, 30...)
+	WeaponRecoilTarget += CurrentRecoilWeapon;
+	
+	//Everytime Camera Weapon Recoil is Called It Will Reset The Timer and Start The Timer Again
+	GetWorldTimerManager().ClearTimer(CameraRecoilTimerHandle);
+	GetWorldTimerManager().SetTimer(CameraRecoilTimerHandle, [this]
+	{
+		WeaponRecoilTarget = 0;
+		CurrentWeaponRecoil = 0;
+	},
+	0.2f,
+	false
+	);
 }
 
 void AProjectReCharacter::WeaponCameraShake() const

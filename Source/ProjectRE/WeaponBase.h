@@ -55,6 +55,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Weapon")
 	EWeaponType WeaponType;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Recoil")
+	float WeaponRecoilForce = 1.0f;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Bullet")
 	int32 MaxAmmo;
 	
@@ -156,6 +159,8 @@ protected:
 	void BulletHit(FHitResult& HitResult, const FVector& ShootingStartLocation) const;
 
 	void SpawnEmptyShells() const;
+	
+	void WeaponRecoil();
 	
 private:
 	UPROPERTY()
