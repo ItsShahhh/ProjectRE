@@ -254,7 +254,9 @@ void AProjectReCharacter::Tick(const float DeltaSeconds)
 	const float FinalWeaponRecoil = CurrentWeaponRecoil - LastWeaponRecoil;
 	
 	AddControllerPitchInput(-FinalWeaponRecoil);
-}#pragma region Player Input
+}
+
+#pragma region Player Input
 void AProjectReCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
