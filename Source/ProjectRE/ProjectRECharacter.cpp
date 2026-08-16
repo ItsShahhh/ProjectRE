@@ -686,7 +686,6 @@ void AProjectReCharacter::VaultingAnimation(const FVector& VaultLocation, UAnimM
 {
 	GetMotionWarpingComponent()->AddOrUpdateWarpTargetFromLocation(FName("Vault"), VaultLocation);
 	PlayAnimMontage(VaultAnimation);
-	GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Ignore);
 	ControlRig = false;
 	GetCameraBoom()->bDoCollisionTest = false;
@@ -698,7 +697,6 @@ void AProjectReCharacter::VaultingAnimation(const FVector& VaultLocation, UAnimM
 void AProjectReCharacter::FinishVaulting()
 {
 	// On Each Animation There's AnimNotify Where It Will Call This Function On Certain Frame
-	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 	ControlRig = true;
 	GetCameraBoom()->bDoCollisionTest = true;

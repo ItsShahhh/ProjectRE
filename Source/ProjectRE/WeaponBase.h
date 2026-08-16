@@ -157,10 +157,8 @@ protected:
 	
 	// Functions
 	void BulletHit(FHitResult& HitResult, const FVector& ShootingStartLocation) const;
-
 	void SpawnEmptyShells() const;
-	
-	void WeaponRecoil();
+	void WeaponRecoil() const;
 	
 private:
 	UPROPERTY()

@@ -151,7 +151,7 @@ bool AWeaponBase::FireWeapon(const FVector& CameraLocation, const FVector& Camer
 	return true;
 }
 
-void AWeaponBase::WeaponRecoil()
+void AWeaponBase::WeaponRecoil() const
 {
 	if (!CharacterRef->Implements<UPlayerStateInterface>()) return;
 	IPlayerStateInterface::Execute_CameraWeaponRecoil(CharacterRef, WeaponRecoilForce);
