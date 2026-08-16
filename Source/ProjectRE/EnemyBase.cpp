@@ -42,6 +42,7 @@ void AEnemyBase::BeginPlay()
 	{
 		if (UBlackboardComponent* BlackboardComp = AIComp->GetBlackboardComponent())
 		{
+			//Inside BlackBoard For SplinePatch Actor We Set To This
 			BlackboardComp->SetValueAsObject(FName("SplinePath"), AssignSpline);
 		}
 	}
