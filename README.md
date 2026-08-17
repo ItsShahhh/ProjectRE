@@ -31,6 +31,7 @@ _Noted This Also My First Ever C++ Project and i learned a lot of new ways to co
 **Technical Implementation:**
 - User Widget for showing ammo will be visible aiming an weapon https://github.com/ItsShahhh/ProjectRE/blob/e680f3df1ca6a13eba11d90f97bae90d8d63ea70/Source/ProjectRE/WeaponBase.cpp#L283
 - Based on the current ammo it will updated on the Ammo User Widget using event dispatcher
+  
 [This broadcast is for when shooting weapon]
 https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0ac403/Source/ProjectRE/WeaponBase.cpp#L110
 [This broadcast is for when reloading weapon]
