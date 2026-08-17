@@ -35,10 +35,30 @@ _Note:_ The first two seconds of the gif is interactable with IK off and the res
 - Player need to face the interact item to be able to pick it up https://github.com/ItsShahhh/ProjectRE/blob/255f34115a3fa9d4f972917236253e76c6885680/Source/ProjectRE/InteractableTrace.cpp#L58-L85
 
 
-### Parkour (Mantle and Vaulting)
+### Vaulting
 
+_Note:_ This is vaulting with IK hand off
+<img width="800" height="400" alt="NoIKVaulting" src="https://github.com/user-attachments/assets/3e2c753e-98e0-475a-87ec-28466ddac0d5" />
 
-<img width="800" height="400" alt="NoIKVaulting" src="https://github.com/user-attachments/assets/3e2c753e-98e0-475a-87ec-28466ddac0d5" />  <img width="800" height="400" alt="IKVaulting" src="https://github.com/user-attachments/assets/fca2d753-67e3-46ce-a4c8-3a88ad043578" />
+_Note:_ This is vaulting with IK hand on
+<img width="800" height="400" alt="IKVaulting" src="https://github.com/user-attachments/assets/fca2d753-67e3-46ce-a4c8-3a88ad043578" />
+
+**Overview:** Multi stage raycasting approach combined with root motion animations to ensure smooth, natural interaction with varied geometry
+**Technical Implementation:**
+- Line Trace will be cast using actor forward vector and multiply it by vault distance, the vault trace will be subtract so it will be cast down https://github.com/ItsShahhh/ProjectRE/blob/d05b57d797c41d81a0abfd83b35152dbe9a3f20f/Source/ProjectRE/VaultObstacle.cpp#L72-L75
+- Forward sphere trace will checks if an vaulting location is block by obstacle using overlapping https://github.com/ItsShahhh/ProjectRE/blob/d05b57d797c41d81a0abfd83b35152dbe9a3f20f/Source/ProjectRE/VaultObstacle.cpp#L91-L106
+- IK hand will be activated based on curve values and certain frame in animation, it will also fire an line trace to the hand bone to get the exact location of hand (This is inside Vaulting Animation for AnimNotify) 
+- Vaulting animation is also using motion warping to make sure it always landed on given location and doesn't clip through obstacle (Motion Warping Notify is used inside the Vaulting Animation)
+
+### Mantle
+
+<img width="800" height="400" alt="Mantling" src="https://github.com/user-attachments/assets/0d6a7986-a3e2-46c6-8d35-0230331ca6b3" />
+
+**Overview:** A multi-stage raycasting approach combined with Motion Warping and root motion animations to seamlessly scale walls, high ledges, and elevated geometry
+**Technical Implementation:**
+- A forward line trace casts at head level using the actor’s forward vector multiplied by the mantle range. If this trace hits an obstacle, the wall is determined to be too tall, instantly failing the mantle attempt. https://github.com/ItsShahhh/ProjectRE/blob/d05b57d797c41d81a0abfd83b35152dbe9a3f20f/Source/ProjectRE/VaultObstacle.cpp#L108-L126
+- If the head-level check passes, a secondary line trace casts forward with an added Z-axis offset above the ledge. The resulting impact point identifies the top surface, providing the exact target vector passed into the Motion Warping system. https://github.com/ItsShahhh/ProjectRE/blob/d05b57d797c41d81a0abfd83b35152dbe9a3f20f/Source/ProjectRE/VaultObstacle.cpp#L48-L68
+- Motion Warping notifies embedded in the mantle animation dynamically adjust the root motion path to warp the character cleanly onto the calculated surface target without clipping through geometry or floating in mid-air. https://github.com/ItsShahhh/ProjectRE/blob/d05b57d797c41d81a0abfd83b35152dbe9a3f20f/Source/ProjectRE/ProjectRECharacter.cpp#L674-L687
 
 
 ## User Widget (UI)
