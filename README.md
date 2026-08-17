@@ -26,7 +26,19 @@ _Noted This Also My First Ever C++ Project and i learned a lot of new ways to co
 
 ### Interactable IK
 
+_Note:_ The first two seconds of the gif is interactable with IK off and the rest of the clip is with IK on
 <img width="1152" height="594" alt="IKPickableItem" src="https://github.com/user-attachments/assets/0e37186c-54f9-4fa2-90c5-a0acd3f19043" />
+
+**Overview:** Interact with pickable will activate IK that move hand to the location of the interact pickable item 
+**Technical Implementation:**
+- Line Trace will shoot that will check if the pickable object type is World Static and implement UInteractableInterface https://github.com/ItsShahhh/ProjectRE/blob/255f34115a3fa9d4f972917236253e76c6885680/Source/ProjectRE/InteractableTrace.cpp#L32-L56
+- Player need to face the interact item to be able to pick it up https://github.com/ItsShahhh/ProjectRE/blob/255f34115a3fa9d4f972917236253e76c6885680/Source/ProjectRE/InteractableTrace.cpp#L58-L85
+
+
+### Parkour (Mantle and Vaulting)
+
+
+<img width="800" height="400" alt="NoIKVaulting" src="https://github.com/user-attachments/assets/3e2c753e-98e0-475a-87ec-28466ddac0d5" />  <img width="800" height="400" alt="IKVaulting" src="https://github.com/user-attachments/assets/fca2d753-67e3-46ce-a4c8-3a88ad043578" />
 
 
 ## User Widget (UI)
