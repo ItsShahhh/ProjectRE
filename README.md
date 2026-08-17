@@ -32,7 +32,25 @@ _Noted This Also My First Ever C++ Project and i learned a lot of new ways to co
 - User Widget for showing ammo will be visible aiming an weapon https://github.com/ItsShahhh/ProjectRE/blob/e680f3df1ca6a13eba11d90f97bae90d8d63ea70/Source/ProjectRE/WeaponBase.cpp#L283
 - Based on the current ammo it will updated on the Ammo User Widget using event dispatcher
   
-[This broadcast is for when shooting weapon]
+[Broadcast for checking ammo when shooting weapon]
 https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0ac403/Source/ProjectRE/WeaponBase.cpp#L110
-[This broadcast is for when reloading weapon]
+[Broadcast for checking ammo when reload weapon]
 https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0ac403/Source/ProjectRE/WeaponBase.cpp#L257
+
+
+<img width="400" height="400" alt="InventoryItem" src="https://github.com/user-attachments/assets/e9f615c4-cf7c-45b9-b891-fd28ad843af6" />
+
+**Overview:** Stackable item inventory system and can replace unoccupied item slot with new item on the same slot
+**Technical Implementation:**
+- Inventory is refresh/checks every time inventory is open
+- Check will happen inside of an array for any potential item that meet the requirement (Which is Gameplay Tag and Empty Slot) to be added to the inventory array
+- Event Dispatcher will be broadcast at the end of array to inventory user widget
+
+
+<img width="400" height="400" alt="HotbarWeaponSlots" src="https://github.com/user-attachments/assets/e7829fe2-3948-49eb-9a76-55a9c88bbe44" />
+
+**Overview:** Only Weapon is added onto the hotbar and can be move from slots to slots
+**Technical Implementation:**
+- Hotbar only accept specific Gameplay Tags to be added into hotbar array
+- Dragged on hotbar slot and it will check that slot for texture then attach it to mouse cursor
+- When Dropped onto another hotbar slot that already occupied with weapon (Which is Not Empty) it revert back to previous dragged slot
