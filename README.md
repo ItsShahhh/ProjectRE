@@ -42,15 +42,16 @@ https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0a
 
 **Overview:** Stackable item inventory system and can replace unoccupied item slot with new item on the same slot
 **Technical Implementation:**
-- Inventory is refresh/checks every time inventory is open
-- Check will happen inside of an array for any potential item that meet the requirement (Which is Gameplay Tag and Empty Slot) to be added to the inventory array
-- Event Dispatcher will be broadcast at the end of array to inventory user widget
+- Inventory is refresh/checks every time inventory is open https://github.com/ItsShahhh/ProjectRE/blob/93dbef5f9bd8794a8c38a90650c3149a3b8292e9/Source/ProjectRE/InventoryComponent.cpp#L149-L174
+- Check will happen inside of an array for any potential item that meet the requirement (Which is Gameplay Tag and Empty Slot) to be added to the inventory array https://github.com/ItsShahhh/ProjectRE/blob/93dbef5f9bd8794a8c38a90650c3149a3b8292e9/Source/ProjectRE/InventoryComponent.cpp#L158-L166
+- Event Dispatcher will be broadcast at the end of array to inventory user widget https://github.com/ItsShahhh/ProjectRE/blob/93dbef5f9bd8794a8c38a90650c3149a3b8292e9/Source/ProjectRE/InventoryComponent.cpp#L169
+- Same type of ammo inside inventory is stackable
 
 
 <img width="400" height="400" alt="HotbarWeaponSlots" src="https://github.com/user-attachments/assets/e7829fe2-3948-49eb-9a76-55a9c88bbe44" />
 
 **Overview:** Only Weapon is added onto the hotbar and can be move from slots to slots
 **Technical Implementation:**
-- Hotbar only accept specific Gameplay Tags to be added into hotbar array
-- Dragged on hotbar slot and it will check that slot for texture then attach it to mouse cursor
-- When Dropped onto another hotbar slot that already occupied with weapon (Which is Not Empty) it revert back to previous dragged slot
+- Picking up weapon will automatically added to hotbar array https://github.com/ItsShahhh/ProjectRE/blob/93dbef5f9bd8794a8c38a90650c3149a3b8292e9/Source/ProjectRE/InventoryComponent.cpp#L63
+- Dragged on hotbar slot and it will check that slot for texture then attach it to mouse cursor (This function is inside blueprint)
+- When Dropped onto another hotbar slot that already occupied with weapon (Which is Not Empty) it revert back to previous dragged slot (This function is inside blueprint)
