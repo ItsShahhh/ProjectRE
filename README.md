@@ -23,6 +23,7 @@ _Noted This Also My First Ever C++ Project and i learned a lot of new ways to co
 - On event tick also calculated between all those floats and added it to AddControllerYawInput https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0ac403/Source/ProjectRE/ProjectRECharacter.cpp#L242-L256
 
 
+
 ## User Widget (UI)
 
 <img width="800" height="400" alt="ShowingAmmoUI" src="https://github.com/user-attachments/assets/4a33c092-82c6-4a60-8c96-744c3b766e40" />
@@ -38,6 +39,7 @@ https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0a
 https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0ac403/Source/ProjectRE/WeaponBase.cpp#L257
 
 
+
 <img width="400" height="400" alt="InventoryItem" src="https://github.com/user-attachments/assets/e9f615c4-cf7c-45b9-b891-fd28ad843af6" />
 
 **Overview:** Stackable item inventory system and can replace unoccupied item slot with new item on the same slot
@@ -46,6 +48,7 @@ https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0a
 - Check will happen inside of an array for any potential item that meet the requirement (Which is Gameplay Tag and Empty Slot) to be added to the inventory array https://github.com/ItsShahhh/ProjectRE/blob/93dbef5f9bd8794a8c38a90650c3149a3b8292e9/Source/ProjectRE/InventoryComponent.cpp#L158-L166
 - Event Dispatcher will be broadcast at the end of array to inventory user widget https://github.com/ItsShahhh/ProjectRE/blob/93dbef5f9bd8794a8c38a90650c3149a3b8292e9/Source/ProjectRE/InventoryComponent.cpp#L169
 - Same type of ammo inside inventory is stackable
+
 
 
 <img width="400" height="400" alt="HotbarWeaponSlots" src="https://github.com/user-attachments/assets/e7829fe2-3948-49eb-9a76-55a9c88bbe44" />
