@@ -50,7 +50,6 @@ https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0a
 <img width="400" height="400" alt="HotbarWeaponSlots" src="https://github.com/user-attachments/assets/e7829fe2-3948-49eb-9a76-55a9c88bbe44" />
 
 **Overview:** Only Weapon is added onto the hotbar and can be move from slots to slots
-
 **Technical Implementation:**
 - Hotbar only accept specific Gameplay Tags to be added into hotbar array
 - Dragged on hotbar slot and it will check that slot for texture then attach it to mouse cursor
