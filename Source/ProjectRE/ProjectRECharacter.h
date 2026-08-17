@@ -213,6 +213,7 @@ private:
 	//Variables
 	bool bSprinting = false;
 	bool bOpenInventory = false;
+	bool bAlreadyVaulted = false;
 	
 	float WeaponRecoilTarget;
 	float CurrentWeaponRecoil;
@@ -299,6 +300,8 @@ private:
 	void MantleAnimation(const FVector& MantleLocation, UAnimMontage* MantleAnimation);
 	UFUNCTION()
 	void VaultingAnimation(const FVector& VaultLocation, UAnimMontage* VaultAnimation);
+	UFUNCTION(BlueprintCallable)
+	void VaultingHandPlacement();
 	
 	//Reload Dispatch
 	UFUNCTION(BlueprintCallable)
@@ -316,7 +319,6 @@ private:
 	bool CanDoActions() const;
 	
 public:
-	
 	/** Constructor */
 	AProjectReCharacter();	
 	

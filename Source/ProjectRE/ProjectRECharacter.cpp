@@ -634,6 +634,7 @@ void AProjectReCharacter::StopTightSpacesDispatcher()
 void AProjectReCharacter::VaultObstacle()
 {
 	if (!CanDoActions()) return;
+	if (bAlreadyVaulted) return;
 	
 	if (VaultObstacleComp)
 	{
@@ -672,6 +673,9 @@ void AProjectReCharacter::CheckVaultingState()
 
 void AProjectReCharacter::MantleAnimation(const FVector& MantleLocation, UAnimMontage* MantleAnimation)
 {
+	//To Prevent Spamming Vault Action
+	bAlreadyVaulted = true;
+	
 	GetMotionWarpingComponent()->AddOrUpdateWarpTargetFromLocation(FName("Mantle"), MantleLocation);
 	PlayAnimMontage(MantleAnimation);
 	
@@ -684,6 +688,8 @@ void AProjectReCharacter::MantleAnimation(const FVector& MantleLocation, UAnimMo
 
 void AProjectReCharacter::VaultingAnimation(const FVector& VaultLocation, UAnimMontage* VaultAnimation)
 {
+	bAlreadyVaulted = true;
+	
 	GetMotionWarpingComponent()->AddOrUpdateWarpTargetFromLocation(FName("Vault"), VaultLocation);
 	PlayAnimMontage(VaultAnimation);
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Ignore);
@@ -694,12 +700,40 @@ void AProjectReCharacter::VaultingAnimation(const FVector& VaultLocation, UAnimM
 	OnUpdateVaultingForAnimation.Broadcast(ControlRig);
 }
 
+void AProjectReCharacter::VaultingHandPlacement()
+{
+	const FVector StartLocation = GetMesh()->GetBoneLocation(FName("hand_r"), EBoneSpaces::WorldSpace);
+	const FVector EndLocation = StartLocation + (-GetActorUpVector() * 10);
+	
+	FHitResult HitResult;
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	
+	const bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, QueryParams);
+	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 1, 0 ,1);
+	
+	if (bHit)
+	{
+		const FVector HandLocation = HitResult.ImpactPoint;
+		
+		//Move Hand Up A Bit So It Doesn't Clip Trough
+		const float MoveHandUp = HandLocation.Z + 5.0f;
+		const FVector FinalHandLocation = FVector(HandLocation.X, HandLocation.Y, MoveHandUp);
+		
+		IKHandInteractable = FinalHandLocation;
+		OnUpdateInteractableForAnimation.Broadcast();
+	}
+}
+
 void AProjectReCharacter::FinishVaulting()
 {
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	
 	// On Each Animation There's AnimNotify Where It Will Call This Function On Certain Frame
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
-	ControlRig = true;
 	GetCameraBoom()->bDoCollisionTest = true;
+	ControlRig = true;
+	bAlreadyVaulted = false;
 	
 	//Update Vaulting Variables For Player Animation
 	OnUpdateVaultingForAnimation.Broadcast(ControlRig);
