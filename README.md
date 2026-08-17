@@ -24,7 +24,7 @@ _Noted This Also My First Ever C++ Project and i learned a lot of new ways to co
 
 ## Player Mechanics
 
-###Interactable IK
+### Interactable IK
 
 <img width="1152" height="594" alt="IKPickableItem" src="https://github.com/user-attachments/assets/0e37186c-54f9-4fa2-90c5-a0acd3f19043" />
 
