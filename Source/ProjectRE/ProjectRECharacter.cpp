@@ -710,7 +710,6 @@ void AProjectReCharacter::VaultingHandPlacement()
 	QueryParams.AddIgnoredActor(this);
 	
 	const bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, QueryParams);
-	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 1, 0 ,1);
 	
 	if (bHit)
 	{

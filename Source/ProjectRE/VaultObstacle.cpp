@@ -37,7 +37,6 @@ void UVaultObstacle::VaultObstacle()
 	const FVector ForwardVector = GetOwner()->GetActorForwardVector();
 	const FVector EndLocation  = StartLocation+ (ForwardVector * LineRange);
 	bHitWaist = GetWorld()->LineTraceSingleByChannel(HitObstacle, StartLocation, EndLocation, ECC_Visibility);
-	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, -1, 0, 1);
 	
 	// If Hit Something With Waist Trace We Check If Player Running or Walking/Idle
 	if (bHitWaist)
@@ -57,7 +56,6 @@ void UVaultObstacle::Mantle() const
 	
 	FHitResult MantleHit;
 	GetWorld()->LineTraceSingleByChannel(MantleHit, MantleTraceStart, MantleTraceEnd, ECC_Visibility);
-	DrawDebugLine(GetWorld(), MantleTraceStart, MantleTraceEnd, FColor::Green, false, 5, 0, 1);
 	
 	FVector MantleLocation = MantleHit.Location;
 	// I Added MantleLocation.Z To 100 So The Mantle Hit Location Is Above and Not Inside The Obstacle, So Player Can Mantle On Top Of The Box
@@ -78,8 +76,7 @@ void UVaultObstacle::Vaulting() const
 	
 	FHitResult VaultHit;
 	GetWorld()->LineTraceSingleByChannel(VaultHit, VaultTraceStart, VaultTraceEnd, ECC_Visibility);
-	DrawDebugLine(GetWorld(), VaultTraceStart, VaultTraceEnd, FColor::Green, false, 5, 0, 1);
-
+	
 	const FVector VaultLocation = VaultHit.Location;
 	
 	if (!CanVault(VaultLocation)) return;
@@ -100,7 +97,6 @@ bool UVaultObstacle::CanVault(FVector VaultLocation) const
 	//Shooting a Sphere Trace In front Of Player To Check If There's Anything Blocking
 	//If True That Mean Something Is Blocking Player From Vaulting
 	const bool bHitObstacle = GetWorld()->SweepSingleByChannel(CanVaultHit, VaultLocation, VaultLocation, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeCapsule(42, 96));
-	DrawDebugCapsule(GetWorld(), VaultLocation, 96, 42, FQuat::Identity, FColor::Red, false, 5, 0, 1);
 	
 	if (bHitObstacle)
 	{
@@ -121,7 +117,6 @@ bool UVaultObstacle::CanMantle() const
 	//If True That Mean The Actor That Blocking The Trace Is Taller Than Player
 	FHitResult CanMantleHit;
 	const bool bHitObstacle = GetWorld()->LineTraceSingleByChannel(CanMantleHit, HeadTraceStart, HeadTraceEnd, ECC_Visibility);
-	DrawDebugLine(GetWorld(), HeadTraceStart, HeadTraceEnd, FColor::Green, false, 5, 0, 1);
 	
 	if (bHitObstacle)
 	{

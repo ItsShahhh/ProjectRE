@@ -53,8 +53,6 @@ void UInteractableTrace::TraceTimerScanner(const FVector& StartTraceLocation, co
 			}
 		}
 	}
-	//Draw Line Trace Debug
-	DrawDebugLine(GetWorld(), StartTraceLocation, EndCameraLocation, FColor::Yellow, false, .1, 0 , 1);
 }
 
 bool UInteractableTrace::IsFacingInteractable(const AActor* ItemActor) const
