@@ -7,6 +7,8 @@ _Noted This Also My First Ever C++ Project and i learned a lot of new ways to co
 
 ## Weapon Mechanics
 
+### Shooting Weapon
+
 <img width="800" height="400" alt="WeaponRecoil" src="https://github.com/user-attachments/assets/704be8a8-f37a-49c2-b7fa-846657fe020d" />
 
 **Overview:** Line Trace for shooting weapon will be based on each weapon bullet pallet
@@ -16,6 +18,7 @@ _Noted This Also My First Ever C++ Project and i learned a lot of new ways to co
 - Based on the numbers of the bullet pallet weapon will shoot that amount https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0ac403/Source/ProjectRE/WeaponBase.h#L67-L68
 - Each bullet pallet will also been given random spread radius that also be calculated inside for each loop https://github.com/ItsShahhh/ProjectRE/blob/050738574ea28a686832097c88f345907e0ac403/Source/ProjectRE/WeaponBase.cpp#L88-L152
 
+### Weapon Recoil
 
 **Overview:** Adding Weapon Recoil by calculating current camera recoil and adding new weapon recoil to AddControllerYawInput
 
