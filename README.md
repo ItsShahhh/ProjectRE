@@ -41,9 +41,11 @@ _Note:_ The first two seconds of the gif is interactable with IK off and the res
 ### Vaulting
 
 _Note:_ This is vaulting with IK hand off
+
 <img width="800" height="400" alt="NoIKVaulting" src="https://github.com/user-attachments/assets/3e2c753e-98e0-475a-87ec-28466ddac0d5" />
 
 _Note:_ This is vaulting with IK hand on
+
 <img width="800" height="400" alt="IKVaulting" src="https://github.com/user-attachments/assets/fca2d753-67e3-46ce-a4c8-3a88ad043578" />
 
 **Overview:** Multi stage raycasting approach combined with root motion animations to ensure smooth, natural interaction with varied geometry
