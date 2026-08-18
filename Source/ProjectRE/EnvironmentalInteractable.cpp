@@ -2,7 +2,7 @@
 
 
 #include "EnvironmentalInteractable.h"
-#include "PlayerStateInterface.h"
+#include "CharacterStateInterface.h"
 #include "Components/BoxComponent.h"
 #include "Components/ArrowComponent.h"
 

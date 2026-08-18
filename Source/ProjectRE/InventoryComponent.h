@@ -8,7 +8,7 @@
 #include "GameplayTagContainer.h"
 #include "InteractableInterface.h"
 #include "InventoryDataStruct.h"
-#include "PlayerStateInterface.h"
+#include "CharacterStateInterface.h"
 #include "InventoryComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCloseUnlockDoorUI);
@@ -31,7 +31,7 @@ class UClimbingLadder;
 class UThroughTightSpaces;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class PROJECTRE_API UInventoryComponent : public UActorComponent, public IInteractableInterface, public IPlayerStateInterface
+class PROJECTRE_API UInventoryComponent : public UActorComponent, public IInteractableInterface, public ICharacterStateInterface
 {
 	GENERATED_BODY()
 

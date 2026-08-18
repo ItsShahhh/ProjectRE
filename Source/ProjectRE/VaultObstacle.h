@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "VaultObstacle.generated.h"
 
+enum class ECharacterState : uint8;
 class AProjectReCharacter;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnVaultObstacle);
@@ -47,7 +48,7 @@ protected:
 	void FinishMantleVault();
 	bool CanVault(FVector VaultLocation) const;
 	bool CanMantle() const;
-	
+	void CheckingVaultState() const;
 	
 private:
 	bool bHitWaist = false;
@@ -65,6 +66,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
+	FVector VaultingHandPlacement() const;
 	void Mantle() const;
 	void Vaulting() const ;
 	void VaultObstacle();

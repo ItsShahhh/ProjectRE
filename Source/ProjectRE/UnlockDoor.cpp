@@ -5,7 +5,7 @@
 
 #include "GameplayUtils.h"
 #include "InventoryComponent.h"
-#include "PlayerStateInterface.h"
+#include "CharacterStateInterface.h"
 #include "QuestSubsystem.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -39,9 +39,9 @@ void AUnlockDoor::Interactable_Implementation(AActor* InteractingActor)
 	
 	if (!PlayerRef) return;
 	
-	if (PlayerRef->Implements<UPlayerStateInterface>())
+	if (PlayerRef->Implements<UCharacterStateInterface>())
 	{
-		IPlayerStateInterface::Execute_DoorUnlockMode(PlayerRef, this);
+		ICharacterStateInterface::Execute_DoorUnlockMode(PlayerRef, this);
 	}
 }
 
@@ -51,7 +51,7 @@ void AUnlockDoor::CheckDoorKeys_Implementation(const FGameplayTag CorrectKeyTag)
 	{
 		if (UInventoryComponent* InventoryComp = PlayerRef->FindComponentByClass<UInventoryComponent>())
 		{
-			IPlayerStateInterface::Execute_CorrectDoorKey(InventoryComp, CorrectTag);
+			ICharacterStateInterface::Execute_CorrectDoorKey(InventoryComp, CorrectTag);
 			
 			if (IsValid(QuestSubsystem) && FindUnlockQuestTag.IsValid())
 			{

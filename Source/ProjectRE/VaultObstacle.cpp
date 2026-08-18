@@ -3,6 +3,8 @@
 
 #include "VaultObstacle.h"
 
+#include "CharacterStateInterface.h"
+#include "GameplayUtils.h"
 #include "ProjectRECharacter.h"
 
 // Sets default values for this component's properties
@@ -36,12 +38,50 @@ void UVaultObstacle::VaultObstacle()
 	const FVector StartLocation = GetOwner()->GetActorLocation();
 	const FVector ForwardVector = GetOwner()->GetActorForwardVector();
 	const FVector EndLocation  = StartLocation+ (ForwardVector * LineRange);
+	
 	bHitWaist = GetWorld()->LineTraceSingleByChannel(HitObstacle, StartLocation, EndLocation, ECC_Visibility);
 	
 	// If Hit Something With Waist Trace We Check If Player Running or Walking/Idle
 	if (bHitWaist)
 	{
-		OnCheckingVaultState.Broadcast();
+		CheckingVaultState();
+	}
+}
+
+void UVaultObstacle::CheckingVaultState() const
+{
+	if (!GetOwner()->Implements<UCharacterStateInterface>()) return;
+	
+	//Check If Character Is Sprinting or Not By Executing Interface Getting GetSprint From The Character Itself
+	const bool bIsSprinting = ICharacterStateInterface::Execute_GetIsSprinting(GetOwner());
+	
+	if (bIsSprinting)
+	{
+		// If Spring Set The Current State to Vaulting 
+		ICharacterStateInterface::Execute_SetCharacterState(GetOwner(), ECharacterState::ECS_Vaulting);
+	}
+	else
+	{
+		// If Walking/Idle Set The Current State To Mantle
+		ICharacterStateInterface::Execute_SetCharacterState(GetOwner(), ECharacterState::ECS_Mantle);
+	}
+	
+	//After Setting New Character State We Get The Current State From The Character and Check Using Switch Case
+	const ECharacterState CurrentPlayerState = ICharacterStateInterface::Execute_GetCharacterState(GetOwner());
+	
+	// Based On The Player Current State If One of These Two It Will Call Their Own Functions
+	switch (CurrentPlayerState)
+	{
+	case ECharacterState::ECS_Vaulting:
+		Vaulting();
+		break;
+			
+	case ECharacterState::ECS_Mantle:
+		Mantle();
+		break;
+			
+	default:
+		break;
 	}
 }
 
@@ -123,6 +163,39 @@ bool UVaultObstacle::CanMantle() const
 		return false;
 	}
 	return true;
+}
+
+FVector UVaultObstacle::VaultingHandPlacement() const
+{
+	if (!GetOwner()->Implements<UCharacterStateInterface>())
+	{
+		UGameplayUtils::PrintDebug(2.0f, FColor::Red, TEXT("No Character Interface Implement Here"), this);
+		return FVector::ZeroVector;
+	}
+	
+	const USkeletalMeshComponent* CharacterMesh = ICharacterStateInterface::Execute_GetCharacterSkeletalMeshComponent(GetOwner());
+
+	const FVector StartLocation = CharacterMesh->GetBoneLocation(FName("hand_r"), EBoneSpaces::WorldSpace);
+	const FVector EndLocation = StartLocation + (-GetOwner()->GetActorUpVector() * 10);
+	
+	FHitResult HitResult;
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(GetOwner());
+	
+	const bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, QueryParams);
+	
+	//Create Empty FVector For Return
+	FVector FinalHandLocation;
+	
+	if (bHit)
+	{
+		const FVector HandLocation = HitResult.ImpactPoint;
+		
+		//Move Hand Up A Bit So It Doesn't Clip Trough
+		const float MoveHandUp = HandLocation.Z + 5.0f;
+		FinalHandLocation = FVector(HandLocation.X, HandLocation.Y, MoveHandUp);
+	}
+	return FinalHandLocation;
 }
 
 void UVaultObstacle::FinishMantleVault()

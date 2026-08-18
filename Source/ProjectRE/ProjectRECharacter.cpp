@@ -163,7 +163,6 @@ void AProjectReCharacter::BeginPlay()
 	TightSpacesComp->StartTightSpacesDispatcher.AddDynamic(this, &AProjectReCharacter::StartTightSpacesDispatcher);
 	TightSpacesComp->StopTightSpacesDispatcher.AddDynamic(this, &AProjectReCharacter::StopTightSpacesDispatcher);
 	
-	VaultObstacleComp->OnCheckingVaultState.AddDynamic(this, &AProjectReCharacter::CheckVaultingState);
 	VaultObstacleComp->OnFinishVaulting.AddDynamic(this, &AProjectReCharacter::FinishVaulting);
 	VaultObstacleComp->OnMantleVault.AddDynamic(this, &AProjectReCharacter::MantleAnimation);
 	VaultObstacleComp->OnVault.AddDynamic(this, &AProjectReCharacter::VaultingAnimation);
@@ -642,35 +641,6 @@ void AProjectReCharacter::VaultObstacle()
 	}
 }
 
-void AProjectReCharacter::CheckVaultingState()
-{
-	if (GetSprinting())
-	{
-		// If Spring Set The Current State to Vaulting 
-		CurrentState = ECharacterState::ECS_Vaulting;
-	}
-	else
-	{
-		// If Walking/Idle Set The Current State To Mantle
-		CurrentState = ECharacterState::ECS_Mantle;
-	}
-
-	// Based On The Player Current State If One of These Two It Will Call Their Own Functions
-	switch (CurrentState)
-	{
-	case ECharacterState::ECS_Vaulting:
-		VaultObstacleComp->Vaulting();
-		break;
-			
-	case ECharacterState::ECS_Mantle:
-		VaultObstacleComp->Mantle();
-		break;
-			
-	default:
-		break;
-	}
-}
-
 void AProjectReCharacter::MantleAnimation(const FVector& MantleLocation, UAnimMontage* MantleAnimation)
 {
 	//To Prevent Spamming Vault Action
@@ -700,30 +670,6 @@ void AProjectReCharacter::VaultingAnimation(const FVector& VaultLocation, UAnimM
 	OnUpdateVaultingForAnimation.Broadcast(ControlRig);
 }
 
-void AProjectReCharacter::VaultingHandPlacement()
-{
-	const FVector StartLocation = GetMesh()->GetBoneLocation(FName("hand_r"), EBoneSpaces::WorldSpace);
-	const FVector EndLocation = StartLocation + (-GetActorUpVector() * 10);
-	
-	FHitResult HitResult;
-	FCollisionQueryParams QueryParams;
-	QueryParams.AddIgnoredActor(this);
-	
-	const bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, QueryParams);
-	
-	if (bHit)
-	{
-		const FVector HandLocation = HitResult.ImpactPoint;
-		
-		//Move Hand Up A Bit So It Doesn't Clip Trough
-		const float MoveHandUp = HandLocation.Z + 5.0f;
-		const FVector FinalHandLocation = FVector(HandLocation.X, HandLocation.Y, MoveHandUp);
-		
-		IKHandInteractable = FinalHandLocation;
-		OnUpdateInteractableForAnimation.Broadcast();
-	}
-}
-
 void AProjectReCharacter::FinishVaulting()
 {
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
@@ -736,6 +682,34 @@ void AProjectReCharacter::FinishVaulting()
 	
 	//Update Vaulting Variables For Player Animation
 	OnUpdateVaultingForAnimation.Broadcast(ControlRig);
+}
+
+void AProjectReCharacter::GetVaultingHandPlacement()
+{
+	if (!VaultObstacleComp) return;
+	
+	IKHandInteractable = VaultObstacleComp->VaultingHandPlacement();
+	OnUpdateInteractableForAnimation.Broadcast();
+}
+
+USkeletalMeshComponent* AProjectReCharacter::GetCharacterSkeletalMeshComponent_Implementation()
+{
+	return GetMesh();
+}
+
+void AProjectReCharacter::SetCharacterState_Implementation(const ECharacterState NewCharacterState)
+{
+	CurrentState = NewCharacterState;
+}
+
+ECharacterState AProjectReCharacter::GetCharacterState_Implementation()
+{
+	return CurrentState;
+}
+
+bool AProjectReCharacter::GetIsSprinting_Implementation()
+{
+	return GetSprinting();
 }
 
 #pragma endregion

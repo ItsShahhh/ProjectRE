@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CharacterState.h"
 #include "GameplayTagContainer.h"
 #include "UObject/Interface.h"
-#include "PlayerStateInterface.generated.h"
+#include "CharacterStateInterface.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class UPlayerStateInterface : public UInterface
+class UCharacterStateInterface : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -17,7 +18,7 @@ class UPlayerStateInterface : public UInterface
 /**
  * 
  */
-class PROJECTRE_API IPlayerStateInterface
+class PROJECTRE_API ICharacterStateInterface
 {
 	GENERATED_BODY()
 
@@ -34,4 +35,16 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent)
 	void CameraWeaponRecoil(float CurrentRecoilWeapon);
+	
+	UFUNCTION(BlueprintNativeEvent)
+	ECharacterState GetCharacterState();
+	
+	UFUNCTION(BlueprintNativeEvent)
+	void SetCharacterState(ECharacterState NewCharacterState);
+	
+	UFUNCTION(BlueprintNativeEvent)
+	bool GetIsSprinting();
+	
+	UFUNCTION(BlueprintNativeEvent)
+	USkeletalMeshComponent* GetCharacterSkeletalMeshComponent();
 };

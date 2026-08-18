@@ -6,11 +6,11 @@
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "CharacterState.h"
+#include "CharacterStateInterface.h"
 #include "DiedInterface.h"
 #include "GenericTeamAgentInterface.h"
 #include "DamageableInterface.h"
 #include "InteractableInterface.h"
-#include "PlayerStateInterface.h"
 #include "LockableInterfaces.h"
 #include "ProjectRECharacter.generated.h"
 
@@ -45,7 +45,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateVaultingForAnimation, const
  *  Implements a controllable orbiting camera
  */
 UCLASS(abstract)
-class AProjectReCharacter : public ACharacter, public IDiedInterface, public IGenericTeamAgentInterface, public IDamageableInterface, public IPlayerStateInterface, public ILockableInterfaces, public IInteractableInterface
+class AProjectReCharacter : public ACharacter, public IDiedInterface, public IGenericTeamAgentInterface, public IDamageableInterface, public ICharacterStateInterface, public ILockableInterfaces, public IInteractableInterface
 {
 	GENERATED_BODY()
 
@@ -293,15 +293,13 @@ private:
 	
 	// Vault Obstacle Dispatch
 	UFUNCTION()
-	void CheckVaultingState();
-	UFUNCTION()
 	void FinishVaulting();
 	UFUNCTION()
 	void MantleAnimation(const FVector& MantleLocation, UAnimMontage* MantleAnimation);
 	UFUNCTION()
 	void VaultingAnimation(const FVector& VaultLocation, UAnimMontage* VaultAnimation);
 	UFUNCTION(BlueprintCallable)
-	void VaultingHandPlacement();
+	void GetVaultingHandPlacement();
 	
 	//Reload Dispatch
 	UFUNCTION(BlueprintCallable)
@@ -313,7 +311,7 @@ private:
 	
 	//Heartbeat Sound
 	UFUNCTION()
-	void PlayHeartbeat(const float CurrentHealth, const bool IsAlive);
+	void PlayHeartbeat(const float CurrentHealth, const bool IsAlive) ;
 	
 	// Perform Action
 	bool CanDoActions() const;
@@ -329,6 +327,13 @@ public:
 	
 	//Event Tick
 	virtual void Tick(float DeltaSeconds) override;
+	
+	// VaultObstacle
+	virtual ECharacterState GetCharacterState_Implementation() override;
+	virtual USkeletalMeshComponent* GetCharacterSkeletalMeshComponent_Implementation() override;
+	virtual void SetCharacterState_Implementation(const ECharacterState NewCharacterState) override;
+	virtual bool GetIsSprinting_Implementation() override;
+	
 	
 	// Item IK Interact
 	UFUNCTION()

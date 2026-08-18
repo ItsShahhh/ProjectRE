@@ -153,8 +153,8 @@ bool AWeaponBase::FireWeapon(const FVector& CameraLocation, const FVector& Camer
 
 void AWeaponBase::WeaponRecoil() const
 {
-	if (!CharacterRef->Implements<UPlayerStateInterface>()) return;
-	IPlayerStateInterface::Execute_CameraWeaponRecoil(CharacterRef, WeaponRecoilForce);
+	if (!CharacterRef->Implements<UCharacterStateInterface>()) return;
+	ICharacterStateInterface::Execute_CameraWeaponRecoil(CharacterRef, WeaponRecoilForce);
 }
 
 void AWeaponBase::BulletHit(FHitResult& HitResult, const FVector& ShootingStartLocation) const
