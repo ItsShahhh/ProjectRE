@@ -129,9 +129,11 @@ _Note:_ This is vaulting with IK hand on
 ### Enemy Dismemberment
 
 _Noted:_ One Arm Dismember
+
 <img width="800" height="400" alt="OneHandDismemberment" src="https://github.com/user-attachments/assets/e5e6905d-cde2-496b-adce-615acd5c6a7d" />
 
 _Noted:_ Two Arm Dismember
+
 <img width="800" height="400" alt="TwoHandDismemberment" src="https://github.com/user-attachments/assets/886a1a68-f24a-4a7d-8278-ac31489f798b" />
 
 **Overview:** A dynamic limb dismemberment system that hides/removes target bones upon hit detection, spawns a physical skeletal/static ragdoll piece at the socket location to simulate realistic severance, and dynamically adjusts the enemy’s attack animation set based on remaining functional limbs
