@@ -112,7 +112,7 @@ _Note:_ This is vaulting with IK hand on
 **Overview:** A dynamic HUD damage feedback system that displays screen-space blood splatter UI animations upon receiving damage, triggering persistent pulse transitions and heartbeat audio cues when character health drops below a critical threshold
 
 **Technical Implementation:**
-- Receiving damage triggers a transient blood splatter widget overlay on the player screen, playing a timed UI animation sequence that auto-hides upon completion https://github.com/ItsShahhh/ProjectRE/blob/fa66285906b01f3d634eff645efab202a91b92e4/Source/ProjectRE/Health.cpp#L33-L49
+- Receiving damage triggers a transient blood splatter widget overlay on the player screen, playing a timed UI animation sequence that auto-hides upon completion https://github.com/ItsShahhh/ProjectRE/blob/d87ccc73d7d86dd5d04b1c339b866e818a6b3b42/Source/ProjectRE/Health.cpp#L33-L49
 - When below critical health, the blood splatter UI overrides its standard fade-out sequence to execute a looping ping-pong (fade in/out) opacity animation that persists while health remains low (This function is inside the Health UI)
 - Concurrently triggers a persistent heartbeat sound effect https://github.com/ItsShahhh/ProjectRE/blob/fa66285906b01f3d634eff645efab202a91b92e4/Source/ProjectRE/ProjectRECharacter.cpp#L882-L894
 
