@@ -264,7 +264,8 @@ void AEnemyBase::OnReceiveDamage_Implementation(const float ReceiveDamage, const
 	HealthComp->ReceiveDamage(ReceiveDamage);
 	
 	if (!BloodSplatterVfx) return;
-	// Using Camera Rotation as Blood Splatter Rotation (So The Blood Splatter VFX Always Spawn and Splatter Behind Enemy)
+
+	// Using Actor Forward Actor Then Make It Negative So It Became Backward
 	const FVector BloodSplatterDirection = -GetActorForwardVector();
 	const FRotator BloodSplatterRotation = BloodSplatterDirection.Rotation();
 	
