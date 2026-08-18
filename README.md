@@ -1,6 +1,6 @@
 # ProjectRE (Project Resident Evil)
 
-Inspired by Resident Evil Which an Horror/Shooter A Short Project Showcase Created By Me Focusing On Simple and Complex Mechanics Such As Inventory, Parkour, Weapon, Enemy AI, etc.
+Inspired by Resident Evil an Horror/Shooter, A Short Project Showcase Created By Me Focusing On Simple and Complex Mechanics Such As Inventory, Parkour, Weapon, Enemy, etc.
 _Noted This Also My First Ever C++ Project and i learned a lot of new ways to code_
 
 ---
