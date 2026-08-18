@@ -159,6 +159,14 @@ _Noted:_ Two Arm Dismember
 
 ### Enemy Blood Splatter
 
+<img width="800" height="400" alt="EnemyStumbleHit" src="https://github.com/user-attachments/assets/7fb49d94-101c-47d9-b8c2-39e26bdd4b11" />
+
+**Overview:** A directional hit-reaction effect system that spawns a blood splatter Niagara particle effect at the exact impact point, aligning the particle rotation directly opposite to the character's forward vector to project the splatter backward
+
+**Technical Implementation:** 
+- Inverts the character’s forward vector (-GetActorForwardVector()) to calculate an opposing rotation vector, ensuring the blood spray projects directly behind the character relative to the incoming impact https://github.com/ItsShahhh/ProjectRE/blob/5fb133617e70840732b0ddfaf881ca420498420f/Source/ProjectRE/EnemyBase.cpp#L268-L270
+- Calls UNiagaraFunctionLibrary::SpawnSystemAtLocation to instantiate the blood particle system at the exact world coordinates specified by HitResult.ImpactPoint, using the computed rotation vector and standard unit scaling (FVector(1)) https://github.com/ItsShahhh/ProjectRE/blob/5fb133617e70840732b0ddfaf881ca420498420f/Source/ProjectRE/EnemyBase.cpp#L272-L273
+
 ## Game Mechanics
 
 ### Quest System
