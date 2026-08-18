@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "DamageableInterface.h"
 #include "Health.h"
+#include "ImpactableInterface.h"
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStaticsTypes.h"
 
@@ -112,28 +113,23 @@ void AGrenadeLauncher::ExplosionForce(FVector const& ExplodeLocation) const
 		if (!HitActor) continue;
 		
 		//Check If Other Actor Has Damageable Interface (Mostly This Is For Environment Actor Like Barrel)
-		if (HitActor->Implements<UDamageableInterface>())
+		if (HitActor->Implements<UImpactableInterface>())
 		{
-			IDamageableInterface::Execute_OnReceiveImpact(HitActor);
+			IImpactableInterface::Execute_OnReceiveImpact(HitActor);
 			continue;
 		}
 		
-		//Check If Hit Actor Has Health Component
-		if (UHealth* HealthComp = HitActor->FindComponentByClass<UHealth>())
-		{
-			IDamageableInterface::Execute_OnReceiveDamage(HealthComp, ExplosiveDamage);
-		}
+		if (!HitActor->Implements<UDamageableInterface>()) continue;
+		IDamageableInterface::Execute_OnReceiveDamage(HitActor, ExplosiveDamage, DummyHitResult);
 		
-		if (HitActor->Implements<UEnemyInterface>())
-		{
-			const FVector EnemyLocation = HitActor->GetActorLocation();
-			// Subtracting From Enemy Location To Explode Location To get The Direction For Impulse Launch
-			FVector ForceDirection = EnemyLocation - ExplodeLocation;
-			// Normalize The Calculation To Only 1,1,1 Because We Only Want To Know The Direction
-			ForceDirection.Normalize();
-			FVector LaunchForces = ForceDirection * ExplosionLaunch;
+		if (!HitActor->Implements<UEnemyInterface>()) continue;
+		const FVector EnemyLocation = HitActor->GetActorLocation();
+		// Subtracting From Enemy Location To Explode Location To get The Direction For Impulse Launch
+		FVector ForceDirection = EnemyLocation - ExplodeLocation;
+		// Normalize The Calculation To Only 1,1,1 Because We Only Want To Know The Direction
+		ForceDirection.Normalize();
+		FVector LaunchForces = ForceDirection * ExplosionLaunch;
 		
-			IEnemyInterface::Execute_ReactToExplosion(HitActor, LaunchForces);
-		}
+		IEnemyInterface::Execute_ReactToExplosion(HitActor, LaunchForces);
 	}
 }

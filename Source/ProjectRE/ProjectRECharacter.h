@@ -200,6 +200,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Recoil")
 	float RecoilSpeed = 15.0f;
 	
+	UPROPERTY(EditAnywhere, Category= "Gameplay Tag")
+	FGameplayTag AffiliationTag;
+	
 	UPROPERTY(BlueprintAssignable)
 	FOnUpdateInteractableForAnimation OnUpdateInteractableForAnimation;
 	
@@ -334,6 +337,8 @@ public:
 	virtual void SetCharacterState_Implementation(const ECharacterState NewCharacterState) override;
 	virtual bool GetIsSprinting_Implementation() override;
 	
+	// Receive Damage
+	virtual void OnReceiveDamage_Implementation(const float ReceiveDamage,const FHitResult& HitResult) override;
 	
 	// Item IK Interact
 	UFUNCTION()
@@ -360,6 +365,9 @@ public:
 	
 	//Weapon Recoil
 	virtual void CameraWeaponRecoil_Implementation(float CurrentRecoilWeapon) override;
+	
+	// Get Affiliation Tag
+	virtual FGameplayTag GetAffiliationTag_Implementation() const override;
 	
 	/** Initialize input action bindings */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

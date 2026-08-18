@@ -8,7 +8,7 @@
 #include "EmptyShell.h"
 #include "EnemyInterface.h"
 #include "GameplayUtils.h"
-#include "Health.h"
+#include "ImpactableInterface.h"
 #include "InventoryComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
@@ -163,10 +163,9 @@ void AWeaponBase::BulletHit(FHitResult& HitResult, const FVector& ShootingStartL
 	AActor* HitActor = HitResult.GetActor();
 	if (!HitActor) return;
 	
-	//Check If Other Actor Has Damageable Interface (Mostly This Is For Environment Actor Like Barrel)
-	if (HitActor->Implements<UDamageableInterface>())
+	if (HitActor->Implements<UImpactableInterface>())
 	{
-		IDamageableInterface::Execute_OnReceiveImpact(HitActor);
+		IImpactableInterface::Execute_OnReceiveImpact(HitActor);
 		return;
 	}
 	
@@ -196,12 +195,9 @@ void AWeaponBase::BulletHit(FHitResult& HitResult, const FVector& ShootingStartL
 	// Real Damage After Calculated Body Part Damage and Distance Range Damage
 	const float RealDamage = BodyPartDamage;
 	
-	// Check If Hit Actor Has Health Component
-	if (UHealth* HealthComp = HitActor->FindComponentByClass<UHealth>())
+	if (HitActor->Implements<UDamageableInterface>())
 	{
-		//Call On Receive Damage On Damageable Interface
-		//Set It To HealthComp Because The Interface Is Inside Health Component
-		IDamageableInterface::Execute_OnReceiveDamage(HealthComp, RealDamage);
+		IDamageableInterface::Execute_OnReceiveDamage(HitActor, RealDamage, HitResult);
 	}
 	
 	// Called Body Dismemberment Function
@@ -211,12 +207,6 @@ void AWeaponBase::BulletHit(FHitResult& HitResult, const FVector& ShootingStartL
 		IEnemyInterface::Execute_BodyDismemberment(HitActor, HitResult, RealDamage);
 		IEnemyInterface::Execute_StumbleHit(HitActor, HitResult);
 	}
-	
-	// Using Camera Rotation as Blood Splatter Rotation (So The Blood Splatter VFX Always Spawn and Splatter Behind Enemy)
-	const FRotator BloodSplatterRotation = CharacterRef->GetActorForwardVector().Rotation();
-	
-	// Spawn In Blood Splatter VFX
-	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), BloodSplatterVfx, HitResult.ImpactPoint, BloodSplatterRotation, FVector(1), true);
 }
 
 void AWeaponBase::SpawnEmptyShells() const

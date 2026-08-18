@@ -10,7 +10,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChangedSignature, float, CurrentHealth, bool, IsAlive);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class PROJECTRE_API UHealth : public UActorComponent, public IDamageableInterface
+class PROJECTRE_API UHealth : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -32,9 +32,10 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnHealthChangedSignature OnHealthChanged;
 	
+	void ReceiveDamage(float DamageAmount);
+	
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	virtual void OnReceiveDamage_Implementation(const float ReceiveDamage) override;
 	
 };

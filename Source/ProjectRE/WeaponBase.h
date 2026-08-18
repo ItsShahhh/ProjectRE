@@ -118,9 +118,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Damage")
 	float DistanceRangeDamage = 300.0f;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Damage")
-	TObjectPtr<UNiagaraSystem> BloodSplatterVfx;
-	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Animation")
 	TObjectPtr<UAnimMontage> WeaponReloadAnimation;
 	
@@ -169,7 +166,6 @@ private:
 	
 	UPROPERTY()
 	bool bCurrentlyReloading = false;
-	
 	bool bDismembered = false;
 
 public:

@@ -30,12 +30,12 @@ void UHealth::TickComponent(const float DeltaTime, const ELevelTick TickType, FA
 	// ...
 }
 
-void UHealth::OnReceiveDamage_Implementation(const float ReceiveDamage)
+void UHealth::ReceiveDamage(const float DamageAmount)
 {
 	if (!bIsAlive) return; 
 	
 	//Subtract Current Health With Receive Damage
-	CurrentHealth -= ReceiveDamage;
+	CurrentHealth -= DamageAmount;
 	
 	if (CurrentHealth <= 0.0f)
 	{

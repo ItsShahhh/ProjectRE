@@ -3,12 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DamageableInterface.h"
 #include "GameFramework/Character.h"
 #include "DiedInterface.h"
 #include "GenericTeamAgentInterface.h"
 #include "Components/TimelineComponent.h"
 #include "EnemyInterface.h"
 #include "GameplayTagContainer.h"
+#include "NiagaraSystem.h"
 #include "PhysicsEngine/PhysicalAnimationComponent.h"
 #include "EnemyBase.generated.h"
 
@@ -20,7 +22,7 @@ class USplineComponent;
 class UPhysicalAnimationComponent;
 
 UCLASS()
-class PROJECTRE_API AEnemyBase : public ACharacter, public IDiedInterface, public IGenericTeamAgentInterface, public IEnemyInterface
+class PROJECTRE_API AEnemyBase : public ACharacter, public IDiedInterface, public IGenericTeamAgentInterface, public IEnemyInterface, public IDamageableInterface
 {
 	GENERATED_BODY()
 
@@ -76,12 +78,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spline")
 	TObjectPtr<AActor> AssignSpline;
 	
-	UPROPERTY(EditDefaultsOnly, Category= "Quest")
+	UPROPERTY(EditDefaultsOnly, Category= "Gameplay Tag")
 	FGameplayTag EliminateQuestTag;
+	
+	UPROPERTY(EditDefaultsOnly, Category= "Gameplay Tag")
+	FGameplayTag AffiliationTag;
 	
 	UPROPERTY(EditDefaultsOnly, Category= "Footstep")
 	TMap<TEnumAsByte<EPhysicalSurface>, USoundBase*> FootstepSoundsType;
 	
+	UPROPERTY(EditDefaultsOnly, Category= "VFX")
+	UNiagaraSystem* BloodSplatterVfx;
+
 	UFUNCTION(BlueprintCallable, Category= "Footstep")
 	void FootstepSound();
 
@@ -95,6 +103,9 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<AAIController> AIComp;
+	
+	//Create Dummy Hit Result
+	FHitResult DummyHitResult;
 	
 	FPhysicalAnimationData ResetSettings;
 	FOnAttackFinishedSignature AttackFinishedSignature;
@@ -129,12 +140,16 @@ public:
 	
 	// Function To Give Team ID For Detection For Affiliation in AI Perception
 	virtual FGenericTeamId GetGenericTeamId() const override;
+	
 	virtual FOnAttackFinishedSignature* GetAttackFinishedDelegate() override;
 	virtual void Died_Implementation() override;
 	virtual void EnemyAttack_Implementation() override;
 	virtual void BodyDismemberment_Implementation(FHitResult& HitResult, float WeaponRealDamage) override;
 	virtual void StumbleHit_Implementation(FHitResult& HitResult) override;
 	virtual void ReactToExplosion_Implementation(FVector& LaunchForces) override;
+	
+	virtual void OnReceiveDamage_Implementation(const float ReceiveDamage, const FHitResult& HitResult) override;
+	virtual FGameplayTag GetAffiliationTag_Implementation() const override;
 	
 	//Getter Variables
 	FORCEINLINE bool GetIsAttacking() const { return bIsAttacking; }

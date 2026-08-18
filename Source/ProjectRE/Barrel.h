@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "DamageableInterface.h"
+#include "ImpactableInterface.h"
 #include "Barrel.generated.h"
 
 class UArrowComponent;
 class AAmmoBase;
 
 UCLASS()
-class PROJECTRE_API ABarrel : public AActor, public IDamageableInterface
+class PROJECTRE_API ABarrel : public AActor, public IImpactableInterface
 {
 	GENERATED_BODY()
 	

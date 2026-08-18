@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UObject/Interface.h"
 #include "DamageableInterface.generated.h"
 
@@ -27,8 +28,8 @@ public:
 	void HitCameraShake();
 	
 	UFUNCTION(BlueprintNativeEvent)
-	void OnReceiveImpact();
+	void OnReceiveDamage(const float ReceiveDamage, const FHitResult& HitResult);
 	
 	UFUNCTION(BlueprintNativeEvent)
-	void OnReceiveDamage(const float ReceiveDamage);
+	FGameplayTag GetAffiliationTag() const;
 };

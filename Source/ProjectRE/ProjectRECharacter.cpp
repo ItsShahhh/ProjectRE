@@ -711,7 +711,6 @@ bool AProjectReCharacter::GetIsSprinting_Implementation()
 {
 	return GetSprinting();
 }
-
 #pragma endregion
 
 #pragma region UnlockDoor UI
@@ -823,6 +822,13 @@ void AProjectReCharacter::PickableItemIK_Implementation(const FVector& PickableI
 }
 #pragma endregion
 
+void AProjectReCharacter::OnReceiveDamage_Implementation(const float ReceiveDamage, const FHitResult& /*HitResult*/)
+{
+	if (!IsValid(HealthComp)) return;
+	HealthComp->ReceiveDamage(ReceiveDamage);
+}
+
+
 void AProjectReCharacter::Inventory()
 {
 	if (!HotbarWidget) return;
@@ -911,4 +917,9 @@ bool AProjectReCharacter::CanDoActions() const
 	default:
 		return true;
 	}
+}
+
+FGameplayTag AProjectReCharacter::GetAffiliationTag_Implementation() const
+{
+	return AffiliationTag;
 }

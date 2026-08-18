@@ -48,6 +48,9 @@ protected:
 	float ExplosionRadius = 512.0f;
 
 private:
+	
+	FHitResult DummyHitResult;
+	
 	UPROPERTY()
 	TObjectPtr<AActor> NewGLBullet;
 	

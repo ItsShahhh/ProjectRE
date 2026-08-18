@@ -13,6 +13,7 @@
 #include "PhysicsEngine/PhysicalAnimationComponent.h"
 #include "DamageableInterface.h"
 #include "GameplayUtils.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 
 // Sets default values
@@ -102,14 +103,16 @@ void AEnemyBase::CalculatedAttack()
 	{
 		if (!HitActor) continue;
 		
-		UHealth* PlayerHealthComp = HitActor->FindComponentByClass<UHealth>();
-		if (!IsValid(PlayerHealthComp)) continue;
-		
-		if (PlayerHealthComp->Implements<UDamageableInterface>())
+		if (HitActor->Implements<UDamageableInterface>())
 		{
+			const FGameplayTag HitActorTag = Execute_GetAffiliationTag(HitActor);
+			
+			//When Enemy Attack It Also Check If Any Overlap Actor Has The Same Tag, If True That Mean Their Hitting Each Other
+			if (HitActorTag.MatchesTag(AffiliationTag)) continue;
+			
 			// Check If Hit Actor Implement Damageable Interface
-			IDamageableInterface::Execute_HitCameraShake(HitActor);
-			IDamageableInterface::Execute_OnReceiveDamage(PlayerHealthComp, AttackDamage);
+			Execute_HitCameraShake(HitActor);
+			Execute_OnReceiveDamage(HitActor, AttackDamage, DummyHitResult);
 			break;
 		}
 	}
@@ -254,6 +257,21 @@ void AEnemyBase::StumbleHit_Implementation(FHitResult& HitResult)
 	StartRecoveryBlueprint(HitBone);
 }
 
+void AEnemyBase::OnReceiveDamage_Implementation(const float ReceiveDamage, const FHitResult& HitResult)
+{
+	HealthComp = this->FindComponentByClass<UHealth>();
+	if (!IsValid(HealthComp)) return;
+	HealthComp->ReceiveDamage(ReceiveDamage);
+	
+	if (!BloodSplatterVfx) return;
+	// Using Camera Rotation as Blood Splatter Rotation (So The Blood Splatter VFX Always Spawn and Splatter Behind Enemy)
+	const FVector BloodSplatterDirection = -GetActorForwardVector();
+	const FRotator BloodSplatterRotation = BloodSplatterDirection.Rotation();
+	
+	// Spawn In Blood Splatter VFX
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), BloodSplatterVfx, HitResult.ImpactPoint, BloodSplatterRotation, FVector(1), true);
+}
+
 void AEnemyBase::ReactToExplosion_Implementation(FVector& LaunchForces)
 {
 	GetMesh()->SetSimulatePhysics(true);
@@ -320,4 +338,9 @@ FGenericTeamId AEnemyBase::GetGenericTeamId() const
 FOnAttackFinishedSignature* AEnemyBase::GetAttackFinishedDelegate()
 {
 	return &AttackFinishedSignature;
+}
+
+FGameplayTag AEnemyBase::GetAffiliationTag_Implementation() const
+{
+	return AffiliationTag;
 }
